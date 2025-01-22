@@ -1,6 +1,6 @@
 import { Button, Form, Input } from "antd";
 import React, { useState } from "react";
-import rentMeLogo from "../../assets/navLogo.png";
+import logo from "../../assets/logo.png";
 
 import toast from "react-hot-toast";
 import { useChangePasswordMutation } from "../../redux/apiSlices/authSlice";
@@ -18,7 +18,7 @@ const ChangePassword = () => {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <img src={rentMeLogo} alt="" />
+        <img src={logo} alt="" />
       </div>
     );
   }
@@ -137,7 +137,7 @@ const ChangePassword = () => {
               width: 178,
               height: 48,
               fontWeight: "400px",
-              background: "#8b0000",
+              background: "#023F86",
               color: "white",
             }}
             className="roboto-medium text-sm leading-4"

@@ -8,6 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import logo from "../../../assets/logo.png";
 
 const dummyChartData = [
   { month: "January", userCount: 120 },
@@ -32,7 +33,7 @@ const UserStatistics = () => {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <img src={rentMeLogo} alt="" />
+        <img src={logo} alt="" />
       </div>
     );
   }
@@ -83,8 +84,8 @@ const UserStatistics = () => {
           <Area
             type="monotone"
             dataKey="userCount"
-            stroke="#5c2579cc"
-            fill="#f6e7ff"
+            stroke="#023F86"
+            fill="#D7E8FD"
           />
         </AreaChart>
       </ResponsiveContainer>

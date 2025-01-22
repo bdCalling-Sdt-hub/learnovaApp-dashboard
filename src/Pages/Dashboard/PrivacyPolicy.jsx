@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import JoditEditor from "jodit-react";
 import Title from "../../components/common/Title";
-import rentMeLogo from "../../assets/navLogo.png";
+import logo from "../../assets/logo.png";
 import toast from "react-hot-toast";
-import {
-  usePrivacyPolicyQuery,
-  useUpdatePricyPolicyMutation,
-} from "../../redux/apiSlices/privacyPolicySlice";
+// import {
+//   usePrivacyPolicyQuery,
+//   useUpdatePricyPolicyMutation,
+// } from "../../redux/apiSlices/privacyPolicySlice";
 
 const PrivacyPolicy = () => {
   const editor = useRef(null);
@@ -29,7 +29,7 @@ const PrivacyPolicy = () => {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <img src={rentMeLogo} alt="" />
+        <img src={logo} alt="" />
       </div>
     );
   }
@@ -59,17 +59,17 @@ const PrivacyPolicy = () => {
     }
   };
 
-  const tabContent = {
-    USER: privacyPolicyData,
-    VENDOR: privacyPolicyData,
-    CUSTOMER: privacyPolicyData,
-  };
+  // const tabContent = {
+  //   USER: privacyPolicyData,
+  //   VENDOR: privacyPolicyData,
+  //   CUSTOMER: privacyPolicyData,
+  // };
 
   return (
     <div>
       <Title className="mb-4">Privacy Policy</Title>
 
-      <div className="flex justify-center gap-4 mb-4">
+      {/* <div className="flex justify-center gap-4 mb-4">
         <button
           className={`px-4 rounded-2xl py-2 ${
             selectedTab === "USER" ? "bg-primary text-white" : "bg-gray-200"
@@ -94,11 +94,11 @@ const PrivacyPolicy = () => {
         >
           Customers
         </button>
-      </div>
+      </div> */}
 
       <JoditEditor
         ref={editor}
-        value={tabContent[selectedTab]}
+        value={privacyPolicyData}
         onChange={(newContent) => {
           setContent(newContent);
         }}

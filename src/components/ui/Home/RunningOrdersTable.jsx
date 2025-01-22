@@ -44,23 +44,23 @@ const RunningOrdersTable = () => {
 
   const columns = [
     {
-      title: "Order Number",
+      title: "Courses",
       dataIndex: "orderId",
       key: "orderId",
     },
     {
-      title: "Budget",
+      title: "Shorts",
       dataIndex: "amount",
       key: "amount",
       render: (text) => `$${text}`,
     },
     {
-      title: "Service",
+      title: "Courses Week",
       dataIndex: "preference",
       key: "preference",
     },
     {
-      title: "Order Date",
+      title: "Shorts Week",
       dataIndex: "createdAt",
       key: "createdAt",
       render: (date) => moment(date).format("Do MMM, YYYY"),
@@ -70,7 +70,7 @@ const RunningOrdersTable = () => {
   return (
     <div className="border bg-white h-[300px] p-5 rounded-2xl">
       <div className="flex items-center justify-between">
-        <h1 className="font-bold mb-2">Running Orders</h1>
+        <h1 className="font-bold mb-2">Operational Metrics</h1>
         <Link to={"/analytics"}>
           <Button className="bg-secondary border-secondary">View All</Button>
         </Link>

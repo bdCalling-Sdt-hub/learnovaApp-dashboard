@@ -1,5 +1,5 @@
 import { FaUsers } from "react-icons/fa6";
-import salongoLogo from "../../../assets/salon-go-logo.png";
+import logo from "../../../assets/logo.png";
 
 const GeneralStateSection = () => {
   // Simulated dummy data
@@ -10,6 +10,7 @@ const GeneralStateSection = () => {
       totalActiveVendors: 45,
       totalCompletedOrders: 320,
       totalServices: 75,
+      totalCourses: 30,
     },
   };
 
@@ -18,7 +19,7 @@ const GeneralStateSection = () => {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <img src={salongoLogo} alt="" />
+        <img src={logo} alt="" />
       </div>
     );
   }
@@ -26,59 +27,70 @@ const GeneralStateSection = () => {
   const state = generalState?.data;
 
   return (
-    <div className="grid md:grid-cols-5 gap-6 md:h-[80px]">
+    <div className="grid md:grid-cols-6 gap-6 md:h-[80px]">
       <div className="bg-white rounded-2xl py-0 px-6 flex items-center justify-start gap-4">
-        <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center">
+        <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center">
           <FaUsers color="#210630" size={24} />
         </div>
         <div className="flex flex-col items-start">
-          <h2 className="text-center text-2xl text-base">Total User</h2>
+          <h2 className="text-center text-sm ">Total Users</h2>
           <h3 className="text-center text-2xl font-semibold">
             {state?.totalActiveUsers}
           </h3>
         </div>
       </div>
       <div className="bg-white rounded-2xl py-0 px-6 flex items-center justify-start gap-4">
-        <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center">
+        <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center">
           <FaUsers color="#210630" size={24} />
         </div>
         <div className="flex flex-col items-start">
-          <h2 className="text-center text-2xl text-base">New Sign Ups</h2>
+          <h2 className="text-center text-sm ">New Sign Ups</h2>
           <h3 className="text-center text-2xl font-semibold">
             {state?.newSignups}
           </h3>
         </div>
       </div>
       <div className="bg-white rounded-2xl py-0 px-6 flex items-center justify-start gap-4">
-        <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center">
+        <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center">
           <FaUsers color="#210630" size={24} />
         </div>
         <div className="flex flex-col items-start">
-          <h2 className="text-center text-2xl text-base">Active Vendors</h2>
+          <h2 className="text-center text-sm ">Active Users</h2>
           <h3 className="text-center text-2xl font-semibold">
             {state?.totalActiveVendors}
           </h3>
         </div>
       </div>
       <div className="bg-white rounded-2xl py-0 px-6 flex items-center justify-start gap-4">
-        <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center">
+        <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center">
           <FaUsers color="#210630" size={24} />
         </div>
         <div className="flex flex-col items-start">
-          <h2 className="text-center text-2xl text-base">Completed Orders</h2>
+          <h2 className="text-center text-sm ">Total Quiz</h2>
           <h3 className="text-center text-2xl font-semibold">
             {state?.totalCompletedOrders}
           </h3>
         </div>
       </div>
       <div className="bg-white rounded-2xl py-0 px-6 flex items-center justify-start gap-4">
-        <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center">
+        <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center">
           <FaUsers color="#210630" size={24} />
         </div>
         <div className="flex flex-col items-start">
-          <h2 className="text-center text-2xl text-base">Total Services</h2>
+          <h2 className="text-center text-sm ">Total Shorts</h2>
           <h3 className="text-center text-2xl font-semibold">
             {state?.totalServices}
+          </h3>
+        </div>
+      </div>
+      <div className="bg-white rounded-2xl py-0 px-6 flex items-center justify-start gap-4">
+        <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center">
+          <FaUsers color="#210630" size={24} />
+        </div>
+        <div className="flex flex-col items-start">
+          <h2 className="text-center text-sm ">Total Courses</h2>
+          <h3 className="text-center text-2xl font-semibold">
+            {state?.totalCourses}
           </h3>
         </div>
       </div>

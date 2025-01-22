@@ -143,10 +143,10 @@ const router = createBrowserRouter([
         element: <Admin />,
       },
 
-      // {
-      //   path: "/subscription",
-      //   element: <Subscription />,
-      // },
+      {
+        path: "/subscriptions",
+        element: <Subscription />,
+      },
 
       {
         path: "/privacy-policy",

@@ -64,7 +64,7 @@ const Faq = () => {
             key={index}
             className="flex justify-between items-start gap-4 py-4 px-4 rounded-lg bg-white mb-3"
           >
-            <GoQuestion color="#8b0000" size={25} className="mt-3" />
+            <GoQuestion color="#023F86" size={25} className="mt-3" />
             <div className="flex-1">
               <p className="text-base font-medium rounded-xl py-2 px-4 flex items-center gap-8">
                 <span className="flex-1">{item?.question}</span>

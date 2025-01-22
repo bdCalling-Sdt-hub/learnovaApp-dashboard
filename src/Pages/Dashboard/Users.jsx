@@ -246,27 +246,18 @@ const Users = () => {
         return <span style={{ color }}>{status}</span>;
       },
     },
-    {
-      title: "Fine",
-      dataIndex: "fine",
-      key: "fine",
-      render: (fine) =>
-        fine ? (
-          <span style={{ color: "red" }}>${fine}</span>
-        ) : (
-          <span className="text-green-700">No Fine</span>
-        ),
-    },
+
     {
       title: "Actions",
       key: "actions",
       render: (text, record) => (
         <Space>
           <Link to={`/user/profile/${record.id}`}>
-            <Button className="bg-[#FFF4E3] text-[#F3B806] border-none">
+            <Button className="bg-[#faf5ee] text-[#d8ad2d] border-none">
               Details
             </Button>
           </Link>
+          <Button className="border ">Action</Button>
           <Button className="border border-red-600 text-red-700">
             Restrict
           </Button>

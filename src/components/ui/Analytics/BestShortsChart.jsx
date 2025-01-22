@@ -9,7 +9,7 @@ const dummyData = [
   { _id: "3", orderPercentage: 10, serviceName: "Manicure" },
 ];
 
-const COLORS = ["#5c2579cc", "#c274ec", "#dfbff0"];
+const COLORS = ["#023F86", "#3e83f2", "#27adf1"];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({

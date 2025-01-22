@@ -1,12 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import JoditEditor from "jodit-react";
 import Title from "../../components/common/Title";
-import {
-  useTermsAndConditionQuery,
-  useUpdateTermsAndConditionsMutation,
-} from "../../redux/apiSlices/termsAndConditionSlice";
 import toast from "react-hot-toast";
-import rentMeLogo from "../../assets/navLogo.png";
+import logo from "../../assets/logo.png";
 
 const TermsAndCondition = () => {
   const editor = useRef(null);
@@ -31,7 +27,7 @@ const TermsAndCondition = () => {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <img src={rentMeLogo} alt="" />
+        <img src={logo} alt="" />
       </div>
     );
   }
@@ -58,17 +54,17 @@ const TermsAndCondition = () => {
     }
   };
 
-  const tabContent = {
-    USER: termsAndConditionData,
-    VENDOR: termsAndConditionData,
-    CUSTOMER: termsAndConditionData,
-  };
+  // const tabContent = {
+  //   USER: termsAndConditionData,
+  //   VENDOR: termsAndConditionData,
+  //   CUSTOMER: termsAndConditionData,
+  // };
 
   return (
     <div>
       <Title className="mb-4">Terms and Conditions</Title>
 
-      <div className="flex justify-center gap-4 mb-4">
+      {/* <div className="flex justify-center gap-4 mb-4">
         <button
           className={`px-4 rounded-2xl py-2 ${
             selectedTab === "USER" ? "bg-primary text-white" : "bg-gray-200"
@@ -93,11 +89,11 @@ const TermsAndCondition = () => {
         >
           Customers
         </button>
-      </div>
+      </div> */}
 
       <JoditEditor
         ref={editor}
-        value={tabContent[selectedTab]}
+        value={termsAndConditionData}
         onChange={(newContent) => {
           setContent(newContent);
         }}

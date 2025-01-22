@@ -69,14 +69,14 @@ const SalesTrackingChart = () => {
         <Bar
           dataKey="Sales"
           stackId="a"
-          fill="#8b0000"
+          fill="#023F86"
           radius={[20, 20, 0, 0]} // Optional: rounded top corners
           barSize={10} // Make bars thinner
         />
         <Bar
           dataKey="Revenue"
           stackId="a"
-          fill="#ffe7e7"
+          fill="#D7E8FD"
           radius={[20, 20, 0, 0]} // Optional: rounded top corners
           barSize={10} // Make bars thinner
         />
