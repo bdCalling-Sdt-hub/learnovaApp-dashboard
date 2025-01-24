@@ -1,81 +1,84 @@
-import { Button, Table } from "antd";
-import { Link } from "react-router-dom";
-import moment from "moment";
+import { Tooltip } from "antd";
+import {
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+} from "recharts";
+
+const dummyChartData = [
+  { month: "Saturday", Shorts: 120, Courses: 200 },
+  { month: "Sunday", Shorts: 150, Courses: 220 },
+  { month: "Monday", Shorts: 200, Courses: 250 },
+  { month: "Tuesday", Shorts: 160, Courses: 170 },
+  { month: "Wednesday", Shorts: 230, Courses: 320 },
+  { month: "Thursday", Shorts: 190, Courses: 280 },
+  { month: "Friday", Shorts: 250, Courses: 340 },
+];
 
 const RunningOrdersTable = () => {
-  // Dummy data for salon orders
-  const dummyOrders = [
-    {
-      orderId: "ORD001",
-      amount: 50,
-      preference: "Haircut",
-      createdAt: "2024-12-01T10:00:00Z",
-    },
-    {
-      orderId: "ORD002",
-      amount: 80,
-      preference: "Facial",
-      createdAt: "2024-12-03T14:00:00Z",
-    },
-    {
-      orderId: "ORD003",
-      amount: 40,
-      preference: "Manicure",
-      createdAt: "2024-12-05T09:30:00Z",
-    },
-    {
-      orderId: "ORD004",
-      amount: 120,
-      preference: "Hair Coloring",
-      createdAt: "2024-12-06T12:15:00Z",
-    },
-    {
-      orderId: "ORD005",
-      amount: 60,
-      preference: "Pedicure",
-      createdAt: "2024-12-08T08:45:00Z",
-    },
-  ];
-
-  const data = dummyOrders.slice(0, 3).map((order, index) => ({
-    ...order,
-    key: order.orderId || index.toString(),
-  }));
-
-  const columns = [
-    {
-      title: "Courses",
-      dataIndex: "orderId",
-      key: "orderId",
-    },
-    {
-      title: "Shorts",
-      dataIndex: "amount",
-      key: "amount",
-      render: (text) => `$${text}`,
-    },
-    {
-      title: "Courses Week",
-      dataIndex: "preference",
-      key: "preference",
-    },
-    {
-      title: "Shorts Week",
-      dataIndex: "createdAt",
-      key: "createdAt",
-      render: (date) => moment(date).format("Do MMM, YYYY"),
-    },
-  ];
-
   return (
-    <div className="border bg-white h-[300px] p-5 rounded-2xl">
+    <div className="border bg-white h-[450px] p-5 rounded-2xl">
       <div className="flex items-center justify-between">
-        <h1 className="font-bold mb-2">Operational Metrics</h1>
-        <Link to={"/analytics"}>
-          <Button className="bg-secondary border-secondary">View All</Button>
-        </Link>
+        <h1 className="font-bold text-2xl mb-1">Operational Metrics</h1>
       </div>
-      <Table columns={columns} pagination={false} dataSource={data} />
+      <div className="grid grid-cols-2 my-5 gap-5">
+        <div className="flex flex-col">
+          <h1>Uploaded No. of Shorts this week</h1>
+          <p className="flex items-center gap-1">
+            {" "}
+            <div className="bg-[#023F86] w-5 h-5 rounded-full"></div> 35
+          </p>
+        </div>
+        <div className="flex flex-col">
+          <h1>Uploaded No. of Courses this week</h1>
+          <p className="flex items-center gap-1">
+            {" "}
+            <div className="bg-[#5c2579cc] w-5 h-5 rounded-full"></div> 35
+          </p>
+        </div>
+        <div className="flex flex-col">
+          <h1>Total No. of Shorts</h1>
+          <p className="flex items-center gap-1">
+            {" "}
+            <div className="bg-[#023F86] w-5 h-5 rounded-full"></div> 35
+          </p>
+        </div>
+        <div className="flex flex-col">
+          <h1>Total No. of Courses</h1>
+          <p className="flex items-center gap-1">
+            {" "}
+            <div className="bg-[#5c2579cc] w-5 h-5 rounded-full"></div> 35
+          </p>
+        </div>
+      </div>
+      <ResponsiveContainer width="100%" height={250}>
+        <LineChart
+          data={dummyChartData}
+          margin={{
+            top: 5,
+            right: 0,
+            left: 0,
+            bottom: 40,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="month" tickFormatter={(month) => month.slice(0, 3)} />
+          <YAxis />
+          <Tooltip />
+          <Legend verticalAlign="bottom" align="center" />
+          <Line
+            type="monotone"
+            dataKey="Shorts"
+            stroke="#023F86"
+            activeDot={{ r: 8 }}
+          />
+          <Line type="monotone" dataKey="Courses" stroke="#5c2579cc" />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 };

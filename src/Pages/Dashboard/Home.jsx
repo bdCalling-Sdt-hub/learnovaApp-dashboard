@@ -26,16 +26,16 @@ const Home = () => {
     <div>
       <GeneralStateSection />
       <div className="md:flex w-full items-center gap-6 mt-6">
-        <div className="md:w-5/12 bg-white border rounded-2xl py-3 flex flex-col justify-center">
+        <div className="w-full bg-white border rounded-2xl py-3 flex flex-col justify-center">
           <p className="text-base font-semibold px-4 py-">
             Sales and Revenue Tracking
           </p>
           <SalesTrackingChart />
         </div>
-        <div className="md:w-7/12 md:flex gap-4">
-          <Professionals />
-          <div className="md:w-[40%] border rounded-2xl bg-white p-4 flex flex-col items-center">
-            <h1 className="text-lg font-semibold mb-4">Best Shorts</h1>
+        <div className="md:w-3/12 md:flex gap-4">
+          {/* <Professionals /> */}
+          <div className=" border rounded-2xl bg-white p-4 flex flex-col items-center">
+            <h1 className="text-lg font-semibold mb-4">Subscription</h1>
 
             <div className="relative w-40 h-40 mb-6">
               <svg
@@ -77,13 +77,13 @@ const Home = () => {
               <div className="flex items-center gap-2">
                 <div className="w-4 h-3 rounded-3xl bg-primary"></div>
                 <p className="text-sm font-medium">
-                  Done: {orderSummary?.doneByProfessionals}%
+                  Yearly: {orderSummary?.doneByProfessionals}%
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-4 h-3 rounded-3xl bg-secondary"></div>
                 <p className="text-sm font-medium">
-                  Progress: {orderSummary?.doneByFreelancers.toFixed(1)}%
+                  Monthly: {orderSummary?.doneByFreelancers.toFixed(1)}%
                 </p>
               </div>
             </div>

@@ -1,4 +1,5 @@
 import { Table, Button, Avatar } from "antd";
+import { Link } from "react-router-dom";
 
 const SubscriptionManagement = () => {
   // Dummy data with avatar images
@@ -65,22 +66,14 @@ const SubscriptionManagement = () => {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <Button
-          className="bg-secondary text-black border-none"
-          type="link"
-          onClick={() => handleDetails(record.key)}
-        >
-          Details
-        </Button>
+        <Link to={`/user/profile/${record.id}`}>
+          <Button className="bg-secondary text-black border-none" type="link">
+            Details
+          </Button>
+        </Link>
       ),
     },
   ];
-
-  // Dummy function for handling details button click
-  const handleDetails = (key) => {
-    console.log("Details for ID:", key);
-    // You can implement the logic to show details here
-  };
 
   return (
     <div className="p-5 bg-white rounded-2xl my-5">

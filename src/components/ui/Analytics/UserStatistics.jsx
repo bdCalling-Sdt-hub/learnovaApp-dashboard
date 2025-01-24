@@ -11,18 +11,13 @@ import {
 import logo from "../../../assets/logo.png";
 
 const dummyChartData = [
-  { month: "January", userCount: 120 },
-  { month: "February", userCount: 150 },
-  { month: "March", userCount: 200 },
-  { month: "April", userCount: 180 },
-  { month: "May", userCount: 220 },
-  { month: "June", userCount: 250 },
-  { month: "July", userCount: 300 },
-  { month: "August", userCount: 280 },
-  { month: "September", userCount: 310 },
-  { month: "October", userCount: 400 },
-  { month: "November", userCount: 350 },
-  { month: "December", userCount: 450 },
+  { month: "Saturday", userCount: 120 },
+  { month: "Sunday", userCount: 150 },
+  { month: "Monday", userCount: 200 },
+  { month: "Tuesday", userCount: 180 },
+  { month: "Wednesday", userCount: 220 },
+  { month: "Thursday", userCount: 250 },
+  { month: "Friday", userCount: 300 },
 ];
 
 const UserStatistics = () => {
@@ -47,7 +42,7 @@ const UserStatistics = () => {
   return (
     <div className="bg-white border p-4 rounded-2xl" style={{ width: "100%" }}>
       <div className="flex justify-between items-center mb-3">
-        <p className="font-bold">User Statistics</p>
+        <p className="font-bold">Enrollment Statistics</p>
         <select
           value={selectedYear}
           onChange={(e) => setSelectedYear(parseInt(e.target.value, 10))}
@@ -65,7 +60,7 @@ const UserStatistics = () => {
         </select>
       </div>
 
-      <ResponsiveContainer width="100%" height={200}>
+      <ResponsiveContainer width="100%" height={280}>
         <AreaChart
           width={500}
           height={200}

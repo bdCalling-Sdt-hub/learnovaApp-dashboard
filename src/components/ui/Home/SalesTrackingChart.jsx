@@ -70,15 +70,15 @@ const SalesTrackingChart = () => {
           dataKey="Sales"
           stackId="a"
           fill="#023F86"
-          radius={[20, 20, 0, 0]} // Optional: rounded top corners
-          barSize={10} // Make bars thinner
+          // radius={[20, 20, 0, 0]}
+          barSize={50}
         />
         <Bar
           dataKey="Revenue"
           stackId="a"
           fill="#D7E8FD"
-          radius={[20, 20, 0, 0]} // Optional: rounded top corners
-          barSize={10} // Make bars thinner
+          radius={[20, 20, 0, 0]}
+          barSize={50}
         />
       </BarChart>
     </ResponsiveContainer>

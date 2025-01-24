@@ -1,8 +1,9 @@
-import React from "react";
-import { ConfigProvider, Input, Tabs } from "antd";
-import { Link, useParams } from "react-router-dom";
-import { BiLeftArrowAlt } from "react-icons/bi";
-import RunningOrderTable from "../../components/ui/Analytics/RunningOrderTable";
+import React, { useState } from "react";
+import { ConfigProvider, Input, Table, Select } from "antd";
+import { useParams } from "react-router-dom";
+
+const { Search } = Input;
+const { Option } = Select;
 
 const User = () => {
   const { id } = useParams();
@@ -25,20 +26,107 @@ const User = () => {
     school: "ABC High School",
   };
 
-  const enrolledCourses = [
+  const initialData = [
     {
-      course: "Mathematics",
+      key: "1",
+      courseName: "Mathematics",
+      level: "Advanced",
+      grade: "10th",
+      teacherName: "Mr. Smith",
+      enrollDate: "01-09-2024",
+      status: "Active",
+    },
+    {
+      key: "2",
+      courseName: "Science",
+      level: "Intermediate",
+      grade: "10th",
+      teacherName: "Ms. Johnson",
+      enrollDate: "15-08-2024",
+      status: "Active",
+    },
+    {
+      key: "3",
+      courseName: "History",
+      level: "Beginner",
+      grade: "10th",
+      teacherName: "Mr. Brown",
+      enrollDate: "10-07-2024",
       status: "Completed",
     },
     {
-      course: "Physics",
-      status: "Ongoing",
-    },
-    {
-      course: "Chemistry",
-      status: "Upcoming",
+      key: "4",
+      courseName: "English Literature",
+      level: "Advanced",
+      grade: "10th",
+      teacherName: "Ms. Taylor",
+      enrollDate: "05-06-2024",
+      status: "Active",
     },
   ];
+
+  const [data, setData] = useState(initialData);
+  const [searchText, setSearchText] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+
+  const columns = [
+    {
+      title: "Course Name",
+      dataIndex: "courseName",
+      key: "courseName",
+    },
+    {
+      title: "Level",
+      dataIndex: "level",
+      key: "level",
+    },
+    {
+      title: "Grade",
+      dataIndex: "grade",
+      key: "grade",
+    },
+    {
+      title: "Teacher Name",
+      dataIndex: "teacherName",
+      key: "teacherName",
+    },
+    {
+      title: "Enroll Date",
+      dataIndex: "enrollDate",
+      key: "enrollDate",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (text) => (
+        <span
+          className={
+            text === "Active"
+              ? "text-green-600 font-semibold"
+              : "text-gray-500 font-semibold"
+          }
+        >
+          {text}
+        </span>
+      ),
+    },
+  ];
+
+  const handleSearch = (value) => {
+    const filteredData = initialData.filter((item) =>
+      item.courseName.toLowerCase().includes(value.toLowerCase())
+    );
+    setData(filteredData);
+  };
+
+  const handleStatusFilter = (value) => {
+    setStatusFilter(value);
+    const filteredData = initialData.filter((item) =>
+      value ? item.status === value : true
+    );
+    setData(filteredData);
+  };
 
   const imgUrl =
     user?.imgUrl ||
@@ -48,7 +136,7 @@ const User = () => {
     <div>
       <div>
         <div className="flex items-center gap-10">
-          <div className="flex gap-3 items-center ">
+          <div className="flex gap-3 items-center">
             <img
               className="rounded-full w-16 h-16"
               src={
@@ -84,12 +172,6 @@ const User = () => {
           </div>
           <div className="p-3 bg-white h-20 rounded-2xl shadow-sm">
             <h1 className="font-semibold text-sm border-b-2 border-dashed">
-              Phone
-            </h1>
-            <p className="text-lg my-2">{user?.phone}</p>
-          </div>
-          <div className="p-3 bg-white h-20 rounded-2xl shadow-sm">
-            <h1 className="font-semibold text-sm border-b-2 border-dashed">
               Current Grade
             </h1>
             <p className="text-lg my-2">{user?.grade}</p>
@@ -100,49 +182,32 @@ const User = () => {
             </h1>
             <p className="text-lg my-2">{user?.school}</p>
           </div>
-          <div className="p-3 bg-white h-20 rounded-2xl shadow-sm">
-            <h1 className="font-semibold text-sm border-b-2 border-dashed">
-              Address
-            </h1>
-            <p className="text-lg my-2">
-              {user?.address ? (
-                <>
-                  {user?.address?.street}, {user?.address?.state},{" "}
-                  {user?.address?.city}, {user?.address?.country}
-                </>
-              ) : (
-                "N/A"
-              )}
-            </p>
-          </div>
         </div>
       </div>
       <div>
-        {/* <RunningOrderTable
-          filterProps={
-            user?.vendor?.name || user?.admin?.name || user?.customer?.name
-          }
-        /> */}
-        <h1 className="font-bold text-xl my-5">Enrolled Courses</h1>
-
-        <div className="grid grid-cols-3 gap-5">
-          {enrolledCourses?.map((course) => (
-            <div className="bg-white rounded-2xl p-4 flex gap-3 items-center justify-around">
-              <div>
-                <h1 className="font-semibold text-sm border-b-2 border-dashed">
-                  Course
-                </h1>
-                <p className="text-lg my-2">{course?.course}</p>
-              </div>
-              <div>
-                <h1 className="font-semibold text-sm border-b-2 border-dashed">
-                  Status
-                </h1>
-                <p className="text-lg my-2">{course?.status}</p>
-              </div>
-            </div>
-          ))}
+        <h1 className="font-bold text-xl mt-10 mb-5">Enrolled Courses</h1>
+        <div className="flex justify-end gap-4 mb-4">
+          <Search
+            placeholder="Search courses"
+            onSearch={handleSearch}
+            style={{ width: 400 }}
+          />
+          <Select
+            placeholder="Filter by status"
+            allowClear
+            value={statusFilter}
+            onChange={handleStatusFilter}
+            style={{ width: 200 }}
+          >
+            <Option value="Active">Active</Option>
+            <Option value="Completed">Completed</Option>
+          </Select>
         </div>
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={{ pageSize: 10 }}
+        />
       </div>
     </div>
   );

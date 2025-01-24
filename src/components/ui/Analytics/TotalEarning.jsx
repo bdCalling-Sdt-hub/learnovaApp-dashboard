@@ -14,18 +14,13 @@ const TotalEarning = () => {
 
   // Dummy data to simulate earnings data
   const dummyChartData = [
-    { month: "January", revenue: 1200 },
-    { month: "February", revenue: 1500 },
-    { month: "March", revenue: 1800 },
-    { month: "April", revenue: 2100 },
-    { month: "May", revenue: 2500 },
-    { month: "June", revenue: 2300 },
-    { month: "July", revenue: 2700 },
-    { month: "August", revenue: 3000 },
-    { month: "September", revenue: 2800 },
-    { month: "October", revenue: 3100 },
-    { month: "November", revenue: 3500 },
-    { month: "December", revenue: 4000 },
+    { month: "Saturday", revenue: 1200 },
+    { month: "Sunday", revenue: 1500 },
+    { month: "Monday", revenue: 1800 },
+    { month: "Tuesday", revenue: 2100 },
+    { month: "Wednesday", revenue: 2500 },
+    { month: "Thursday", revenue: 2300 },
+    { month: "Friday", revenue: 2700 },
   ];
 
   const chartData = dummyChartData;
@@ -58,7 +53,7 @@ const TotalEarning = () => {
         </select>
       </div>
 
-      <ResponsiveContainer width="100%" height={200}>
+      <ResponsiveContainer width="100%" height={280}>
         <AreaChart
           width={500}
           height={200}

@@ -43,9 +43,9 @@ const BestShortsChart = () => {
 
   return (
     <div className="bg-white border rounded-2xl p-4">
-      <h1 className="font-bold">Best Services</h1>
+      <h1 className="font-bold">Best Courses</h1>
       <div className="flex items-center justify-center">
-        <ResponsiveContainer width="100%" height={200}>
+        <ResponsiveContainer width="100%" height={240}>
           <PieChart width={400} height={400}>
             <Pie
               data={chartData}

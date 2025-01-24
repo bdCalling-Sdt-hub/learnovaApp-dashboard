@@ -18,7 +18,7 @@ const Users = () => {
           phoneNumber: "+123456789",
           address: "123 Main St, Springfield",
           totalServices: 12,
-          status: "VIP",
+          subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/men/1.jpg",
           fine: 50,
         },
@@ -29,7 +29,7 @@ const Users = () => {
           phoneNumber: "+987654321",
           address: "456 Elm St, Springfield",
           totalServices: 5,
-          status: "Regular",
+          subscription: "Monthly",
           profileImg: "https://randomuser.me/api/portraits/women/2.jpg",
         },
         {
@@ -39,7 +39,7 @@ const Users = () => {
           phoneNumber: "+192837465",
           address: "789 Oak St, Springfield",
           totalServices: 3,
-          status: "New",
+          subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/men/3.jpg",
           fine: 30,
         },
@@ -50,7 +50,7 @@ const Users = () => {
           phoneNumber: "+456789123",
           address: "321 Pine St, Springfield",
           totalServices: 8,
-          status: "VIP",
+          subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/women/4.jpg",
           fine: 0,
         },
@@ -61,7 +61,7 @@ const Users = () => {
           phoneNumber: "+789456123",
           address: "654 Maple St, Springfield",
           totalServices: 6,
-          status: "Regular",
+          subscription: "Monthly",
           profileImg: "https://randomuser.me/api/portraits/men/5.jpg",
         },
         {
@@ -71,7 +71,7 @@ const Users = () => {
           phoneNumber: "+123987654",
           address: "987 Birch St, Springfield",
           totalServices: 7,
-          status: "New",
+          subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/women/6.jpg",
           fine: 40,
         },
@@ -82,7 +82,7 @@ const Users = () => {
           phoneNumber: "+456321789",
           address: "321 Cedar St, Springfield",
           totalServices: 10,
-          status: "VIP",
+          subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/men/7.jpg",
         },
         {
@@ -92,7 +92,7 @@ const Users = () => {
           phoneNumber: "+789123456",
           address: "654 Walnut St, Springfield",
           totalServices: 9,
-          status: "Regular",
+          subscription: "Monthly",
           profileImg: "https://randomuser.me/api/portraits/women/8.jpg",
         },
         {
@@ -102,7 +102,7 @@ const Users = () => {
           phoneNumber: "+123456987",
           address: "987 Cedar St, Springfield",
           totalServices: 4,
-          status: "New",
+          subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/men/9.jpg",
           fine: 25,
         },
@@ -113,7 +113,7 @@ const Users = () => {
           phoneNumber: "+456987123",
           address: "321 Birch St, Springfield",
           totalServices: 11,
-          status: "VIP",
+          subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/women/10.jpg",
         },
         {
@@ -123,7 +123,7 @@ const Users = () => {
           phoneNumber: "+789123789",
           address: "654 Pine St, Springfield",
           totalServices: 5,
-          status: "Regular",
+          subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/men/11.jpg",
         },
         {
@@ -133,7 +133,7 @@ const Users = () => {
           phoneNumber: "+123789456",
           address: "987 Maple St, Springfield",
           totalServices: 13,
-          status: "New",
+          subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/women/12.jpg",
         },
         {
@@ -143,7 +143,7 @@ const Users = () => {
           phoneNumber: "+456321654",
           address: "321 Walnut St, Springfield",
           totalServices: 6,
-          status: "VIP",
+          subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/men/13.jpg",
         },
         {
@@ -153,7 +153,7 @@ const Users = () => {
           phoneNumber: "+789654321",
           address: "654 Cedar St, Springfield",
           totalServices: 7,
-          status: "Regular",
+          subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/women/14.jpg",
           fine: 35,
         },
@@ -164,7 +164,7 @@ const Users = () => {
           phoneNumber: "+123321456",
           address: "987 Pine St, Springfield",
           totalServices: 8,
-          status: "New",
+          subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/men/15.jpg",
         },
       ],
@@ -208,42 +208,31 @@ const Users = () => {
       dataIndex: "email",
       key: "email",
     },
-    {
-      title: "Phone Number",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
-    },
+
     {
       title: "Address",
       dataIndex: "address",
       key: "address",
     },
+
     {
-      title: "Activity",
-      dataIndex: "totalServices",
-      key: "totalServices",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => {
+      title: "Subscription",
+      dataIndex: "subscription",
+      key: "subscription",
+      render: (subscription) => {
         let color;
-        switch (status) {
-          case "VIP":
+        switch (subscription) {
+          case "Monthly":
             color = "orange";
             break;
-          case "Regular":
+          case "Yearly":
             color = "blue";
-            break;
-          case "New":
-            color = "green";
             break;
           default:
             color = "green";
         }
 
-        return <span style={{ color }}>{status}</span>;
+        return <span style={{ color }}>{subscription}</span>;
       },
     },
 
@@ -253,7 +242,7 @@ const Users = () => {
       render: (text, record) => (
         <Space>
           <Link to={`/user/profile/${record.id}`}>
-            <Button className="bg-[#faf5ee] text-[#d8ad2d] border-none">
+            <Button className="bg-[#fbc983] text-black border-none">
               Details
             </Button>
           </Link>

@@ -18,24 +18,19 @@ const UserEngagement = () => {
 
   // Dummy data for User Engagement
   const dummyChartData = [
-    { month: "January", orderCount: 120, userCount: 200 },
-    { month: "February", orderCount: 150, userCount: 220 },
-    { month: "March", orderCount: 180, userCount: 250 },
-    { month: "April", orderCount: 200, userCount: 300 },
-    { month: "May", orderCount: 230, userCount: 320 },
-    { month: "June", orderCount: 190, userCount: 280 },
-    { month: "July", orderCount: 250, userCount: 340 },
-    { month: "August", orderCount: 270, userCount: 360 },
-    { month: "September", orderCount: 210, userCount: 310 },
-    { month: "October", orderCount: 300, userCount: 400 },
-    { month: "November", orderCount: 260, userCount: 350 },
-    { month: "December", orderCount: 310, userCount: 420 },
+    { month: "Saturday", totalUsers: 120, activeUsers: 200 },
+    { month: "Sunday", totalUsers: 150, activeUsers: 220 },
+    { month: "Monday", totalUsers: 180, activeUsers: 250 },
+    { month: "Tuesday", totalUsers: 200, activeUsers: 300 },
+    { month: "Wednesday", totalUsers: 230, activeUsers: 320 },
+    { month: "Thursday", totalUsers: 190, activeUsers: 280 },
+    { month: "Friday", totalUsers: 250, activeUsers: 340 },
   ];
 
   const chartData = dummyChartData;
 
   return (
-    <div className="bg-white p-5 w-[100%] h-[300px] rounded-2xl border">
+    <div className="bg-white p-5 w-[100%] h-[450px] rounded-2xl border">
       <div className="flex justify-between items-center mb-5">
         <h2 className="font-bold">User Engagement</h2>
         <div className="relative">
@@ -76,11 +71,16 @@ const UserEngagement = () => {
           <Legend verticalAlign="bottom" align="center" />
           <Line
             type="monotone"
-            dataKey="orderCount"
+            dataKey="totalUsers"
             stroke="#023F86"
             activeDot={{ r: 8 }}
           />
-          <Line type="monotone" dataKey="userCount" stroke="#5c2579cc" />
+          <Line
+            type="monotone"
+            dataKey="activeUsers"
+            stroke="#5c2579cc"
+            activeDot={{ r: 8 }}
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>
