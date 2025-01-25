@@ -1,17 +1,20 @@
 import React from "react";
 import { Table } from "antd";
 
-const TopCoursesTable = () => {
+const TopCoursesTable = ({ topCourses }) => {
+  // console.log(topCourses);
+
   const columns = [
     {
       title: "Sl No",
       dataIndex: "slNo",
       key: "slNo",
+      render: (text, record, index) => <p>{index + 1}</p>,
     },
     {
       title: "Course Name",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "title",
+      key: "title",
     },
     {
       title: "Grade",
@@ -25,60 +28,25 @@ const TopCoursesTable = () => {
     },
     {
       title: "Teacher Name",
-      dataIndex: "teacher",
+      dataIndex: ["teacher", "name"],
       key: "teacher",
     },
     {
       title: "Views",
-      dataIndex: "views",
-      key: "views",
+      dataIndex: "totalViews",
+      key: "totalViews",
     },
-  ];
-
-  const data = [
-    {
-      key: 1,
-      slNo: 1,
-      name: "Course A",
-      grade: "A",
-      level: "Beginner",
-      teacher: "John Doe",
-      views: 150,
-    },
-    {
-      key: 2,
-      slNo: 2,
-      name: "Course B",
-      grade: "B",
-      level: "Intermediate",
-      teacher: "Jane Smith",
-      views: 200,
-    },
-    {
-      key: 2,
-      slNo: 2,
-      name: "Course B",
-      grade: "B",
-      level: "Intermediate",
-      teacher: "Jane Smith",
-      views: 200,
-    },
-    {
-      key: 2,
-      slNo: 2,
-      name: "Course B",
-      grade: "B",
-      level: "Intermediate",
-      teacher: "Jane Smith",
-      views: 200,
-    },
-    // Add more courses as needed
   ];
 
   return (
     <div className="border bg-white h-[370px] p-5 rounded-2xl">
-      <h1 className="font-bold text-lg my-2">Top Courses</h1>
-      <Table columns={columns} dataSource={data?.slice(0, 3)} />
+      <h1 className="font-bold text-lg mb-2">Top Courses</h1>
+      <Table
+        columns={columns}
+        rowKey="_id"
+        dataSource={topCourses?.slice(0, 4)}
+        pagination={false}
+      />
     </div>
   );
 };

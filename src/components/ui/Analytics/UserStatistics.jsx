@@ -20,51 +20,19 @@ const dummyChartData = [
   { month: "Friday", userCount: 300 },
 ];
 
-const UserStatistics = () => {
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  const isLoading = false; // Simulate loading state for testing
-  const chartData = dummyChartData; // Use dummy data for development
-
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <img src={logo} alt="" />
-      </div>
-    );
-  }
-
-  const currentYear = new Date().getFullYear();
-  const years = Array.from(
-    { length: 12 },
-    (_, i) => currentYear - 10 + i
-  ).reverse();
-
+const UserStatistics = ({ totalEnrollments }) => {
+  // console.log(totalEnrollments);
   return (
     <div className="bg-white border p-4 rounded-2xl" style={{ width: "100%" }}>
       <div className="flex justify-between items-center mb-3">
         <p className="font-bold">Enrollment Statistics</p>
-        <select
-          value={selectedYear}
-          onChange={(e) => setSelectedYear(parseInt(e.target.value, 10))}
-          className="border rounded-md px-3 py-1 cursor-pointer"
-          style={{
-            maxHeight: "150px",
-            overflowY: "scroll",
-          }}
-        >
-          {years.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </select>
       </div>
 
       <ResponsiveContainer width="100%" height={280}>
         <AreaChart
           width={500}
           height={200}
-          data={chartData}
+          data={totalEnrollments}
           margin={{
             top: 10,
             right: 30,
@@ -73,12 +41,12 @@ const UserStatistics = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" tickFormatter={(month) => month.slice(0, 3)} />
+          <XAxis dataKey="day" />
           <YAxis />
           <Tooltip />
           <Area
             type="monotone"
-            dataKey="userCount"
+            dataKey="total"
             stroke="#023F86"
             fill="#D7E8FD"
           />

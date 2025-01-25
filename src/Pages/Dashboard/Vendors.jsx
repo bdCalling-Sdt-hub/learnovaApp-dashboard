@@ -3,13 +3,18 @@ import { Table, Button, Space, Avatar, Select, Tooltip } from "antd";
 import { Link } from "react-router-dom";
 import randomImg from "../../assets/randomProfile2.jpg";
 import logo from "../../assets/logo.png";
-import { useGetTeachersQuery } from "../../redux/apiSlices/userSlice";
+import {
+  useApproveRestrictTeacherMutation,
+  useGetTeachersQuery,
+} from "../../redux/apiSlices/userSlice";
+import toast from "react-hot-toast";
 
 const Vendors = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [page, setPage] = useState(1);
 
   const { data: allTeachersData, isLoading } = useGetTeachersQuery(page);
+  const [approveRestrictTeacher] = useApproveRestrictTeacherMutation();
 
   if (isLoading) {
     return (
@@ -22,12 +27,25 @@ const Vendors = () => {
   const teachersData = allTeachersData?.data;
   const { teachers } = teachersData;
   const { pagination } = teachersData;
-  // console.log(teachers);
+  console.log(teachers);
 
   // Dummy data for barbers
 
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const handleChangeStatus = async (id) => {
+    try {
+      const res = await approveRestrictTeacher(id).unwrap();
+      if (res.success) {
+        toast.success("Status changed successfully");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || "Something went wrong");
+    }
   };
 
   const columns = [
@@ -104,11 +122,18 @@ const Vendors = () => {
             </Button>
           </Link>
 
-          <Button className="border border-red-600 text-red-700">
-            <Tooltip title="This button will send a PATCH request to switch the status approve and restrict. The button will change according the status.">
-              Approve/Restrict
-            </Tooltip>
-          </Button>
+          {record.status === "approved" ? (
+            <Button
+              onClick={() => handleChangeStatus(record._id)}
+              className="border border-red-600 text-red-700"
+            >
+              Restrict
+            </Button>
+          ) : (
+            <Button className="border border-green-600 text-green-700">
+              Approve
+            </Button>
+          )}
         </Space>
       ),
     },
