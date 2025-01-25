@@ -1,58 +1,31 @@
 import React from "react";
 import { Avatar, Card, Table, Space, Button, Tag } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import randomImg from "../../assets/randomProfile2.jpg";
+import { useGetTeacherByIdQuery } from "../../redux/apiSlices/userSlice";
+import logo from "../../assets/logo.png";
+import moment from "moment";
 
 const Vendor = () => {
-  const barber = {
-    id: "1",
-    name: "John Doe",
-    email: "john@example.com",
-    phoneNumber: "+123456789",
-    address: "123 Main St, Cityville",
-    experienceLevel: "Senior",
-    rating: 4.8,
-    subject: "Math",
-    totalServices: 120,
-    totalEarnings: "$6000",
-    status: "Active",
-    profileImg: "https://randomuser.me/api/portraits/men/1.jpg",
-    courses: [
-      {
-        id: "r1",
-        courseName: "Course 1",
-        grade: "10th",
-        level: "Advanced",
-        publishDate: "2023-12-12",
-        status: "Active",
-        totalViews: 100,
-      },
-      {
-        id: "r2",
-        courseName: "Course 2",
-        grade: "6th",
-        level: "Advanced",
-        publishDate: "2023-12-12",
-        status: "Pending",
-        totalViews: 130,
-      },
-      {
-        id: "r3",
-        courseName: "Course 3",
-        grade: "8th",
-        level: "Advanced",
-        publishDate: "2023-12-12",
-        status: "Pending",
-        totalViews: 170,
-      },
-    ],
-  };
+  const { id } = useParams();
+
+  const { data: singleTeacher, isLoading } = useGetTeacherByIdQuery(id);
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={logo} alt="" />
+      </div>
+    );
+  }
+  const teacher = singleTeacher?.data;
+  // console.log(teacher);
 
   const columns = [
     {
       title: "Course Name",
-      dataIndex: "courseName",
-      key: "courseName",
+      dataIndex: "title",
+      key: "title",
     },
     {
       title: "Grade",
@@ -65,12 +38,18 @@ const Vendor = () => {
       key: "level",
     },
     {
-      title: "Publish Date",
-      dataIndex: "publishDate",
-      key: "publishDate",
+      title: "Subject",
+      dataIndex: "subject",
+      key: "subject",
     },
     {
-      title: "Total Views",
+      title: "Publish Date",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (date) => moment(date).format("DD-MM-YYYY"),
+    },
+    {
+      title: "Views",
       dataIndex: "totalViews",
       key: "totalViews",
     },
@@ -88,47 +67,52 @@ const Vendor = () => {
           <div className="flex flex-col items-center justify-center gap-5">
             <div className=" border-4 p-1 rounded-full">
               <img
-                src={barber.profileImg || randomImg}
-                alt={barber.name}
+                src={
+                  teacher?.profile?.startsWith("http")
+                    ? teacher.profile
+                    : `${import.meta.env.VITE_BASE_URL}${teacher.profile}` ||
+                      randomImg
+                }
+                alt={teacher.name}
                 size={100}
                 className="border-2 w-[200px] h-[200px] rounded-full  border-gray-300"
               />
             </div>
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-gray-800">
-                {barber.name}
+              <h2 className="text-2xl font-bold text-gray-800">
+                {teacher.name}
               </h2>
             </div>
           </div>
           <div className="ml-4 text-xl flex flex-col gap-1">
             <p className="text-gray-600">
               <span className="font-semibold">Email: </span>
-              {barber.email}
+              {teacher.email || "N/A"}
             </p>
             <p className="text-gray-600">
               <span className="font-semibold">Subject: </span>
-              {barber.subject}
+              {teacher.designation || "N/A"}
             </p>
             <p className="text-gray-600">
-              <span className="font-semibold">Total Courses</span>{" "}
-              {barber.totalServices}
+              <span className="font-semibold">Total Courses:</span>{" "}
+              {teacher?.courses?.length || 0}
             </p>
             <p className="text-gray-600">
               <span className="font-semibold">Total Earnings:</span>{" "}
-              {barber.totalEarnings}
+              {teacher.totalEarnings || 0}
             </p>
             <p className="text-gray-600">
               <span className="font-semibold"> Status:</span>{" "}
               <span
                 className={`px-2 py-1  ${
-                  barber.status === "Active"
+                  teacher.status === "Active"
                     ? "text-green-500"
-                    : barber.status === "Inactive"
+                    : teacher.status === "Inactive"
                     ? "text-red-500"
                     : "text-orange-500"
                 }`}
               >
-                {barber.status}
+                {teacher.status}
               </span>
             </p>
           </div>
@@ -136,11 +120,7 @@ const Vendor = () => {
       </div>
 
       <Card title="Courses" className="shadow-lg mt-20">
-        <Table
-          columns={columns}
-          dataSource={barber.courses}
-          rowKey={(record) => record.id}
-        />
+        <Table columns={columns} dataSource={teacher?.courses} rowKey="_id" />
       </Card>
     </div>
   );

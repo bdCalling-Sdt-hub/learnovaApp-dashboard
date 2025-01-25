@@ -2,66 +2,29 @@ import React, { useState } from "react";
 import { Table, Button, Space, Avatar, Select, Tooltip } from "antd";
 import { Link } from "react-router-dom";
 import randomImg from "../../assets/randomProfile2.jpg";
+import logo from "../../assets/logo.png";
+import { useGetTeachersQuery } from "../../redux/apiSlices/userSlice";
 
 const Vendors = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [pageSize, setPageSize] = useState(10);
+  const [page, setPage] = useState(1);
+
+  const { data: allTeachersData, isLoading } = useGetTeachersQuery(page);
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={logo} alt="" />
+      </div>
+    );
+  }
+
+  const teachersData = allTeachersData?.data;
+  const { teachers } = teachersData;
+  const { pagination } = teachersData;
+  // console.log(teachers);
 
   // Dummy data for barbers
-  const barbers = {
-    data: {
-      data: [
-        {
-          id: "1",
-          name: "John Doe",
-          email: "john@example.com",
-          phoneNumber: "+123456789",
-          address: "123 Main St, Cityville",
-          subject: "Math",
-          rating: 4.8,
-          totalServices: 120,
-          totalEarnings: "$6000",
-          status: "Active",
-          profileImg: "https://randomuser.me/api/portraits/men/1.jpg",
-          complaint: null,
-        },
-        {
-          id: "2",
-          name: "Jane Smith",
-          email: "jane@example.com",
-          phoneNumber: "+123456780",
-          address: "456 Secondary St, Townsville",
-          subject: "Math",
-          rating: 4.5,
-          totalServices: 200,
-          totalEarnings: "$8000",
-          status: "Inactive",
-          profileImg: "https://randomuser.me/api/portraits/women/2.jpg",
-          complaint: null,
-        },
-        {
-          id: "3",
-          name: "Sam Wilson",
-          email: "sam@example.com",
-          phoneNumber: "+123456781",
-          address: "789 Tertiary St, Suburb",
-          subject: "Math",
-          rating: 4.2,
-          totalServices: 50,
-          totalEarnings: "$2000",
-          status: "Suspended",
-          profileImg: "https://randomuser.me/api/portraits/men/3.jpg",
-          complaint: {
-            reason: "Violation of salon policies",
-            amount: "$50",
-          },
-        },
-        // Add more dummy barbers as needed
-      ],
-    },
-  };
-
-  const data = barbers?.data?.data;
 
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
@@ -69,9 +32,10 @@ const Vendors = () => {
 
   const columns = [
     {
-      title: "Id",
-      dataIndex: "id",
-      key: "id",
+      title: "S No.",
+      dataIndex: "srl",
+      key: "srl",
+      render: (text, record, index) => <p>{index + 1}</p>,
     },
     {
       title: "Name",
@@ -99,9 +63,10 @@ const Vendors = () => {
     },
 
     {
-      title: "Subject",
-      dataIndex: "subject",
-      key: "subject",
+      title: "Designation",
+      dataIndex: "designation",
+      key: "designation",
+      render: (text, record) => <p>{text || "N/A"}</p>,
     },
 
     {
@@ -133,7 +98,7 @@ const Vendors = () => {
       key: "actions",
       render: (text, record) => (
         <Space>
-          <Link to={`/teachers/profile/${record.id}`}>
+          <Link to={`/teachers/profile/${record._id}`}>
             <Button className="bg-[#f7bc64] text-black border-none">
               Details
             </Button>
@@ -184,12 +149,14 @@ const Vendors = () => {
       <h1 className="text-2xl font-semibold  my-5">Teachers</h1>
       <Table
         className="bg-white"
-        pagination={{
-          pageSize: pageSize,
-        }}
         columns={columns}
-        dataSource={data}
-        rowKey={(record) => record.id}
+        dataSource={teachers}
+        rowKey="_id"
+        pagination={{
+          pageSize: pagination?.limit,
+          total: pagination?.total,
+          onChange: (page) => setPage(page),
+        }}
       />
     </>
   );

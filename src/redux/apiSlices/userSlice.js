@@ -10,27 +10,36 @@ const userSlice = api.injectEndpoints({
         };
       },
     }),
-    users: builder.query({
-      query: () => {
+    getStudents: builder.query({
+      query: (page) => {
         return {
           method: "GET",
-          url: "/user",
+          url: `/admin/students?page=${page}`,
         };
       },
     }),
-    vendors: builder.query({
-      query: () => {
-        return {
-          method: "GET",
-          url: "/user?role=VENDOR",
-        };
-      },
-    }),
-    userById: builder.query({
+    getStudentById: builder.query({
       query: (id) => {
         return {
           method: "GET",
-          url: `/user/profile/${id}`,
+          url: `/admin/student/${id}`,
+        };
+      },
+    }),
+
+    getTeachers: builder.query({
+      query: () => {
+        return {
+          method: "GET",
+          url: "/admin/teachers",
+        };
+      },
+    }),
+    getTeacherById: builder.query({
+      query: (id) => {
+        return {
+          method: "GET",
+          url: `/admin/teacher/${id}`,
         };
       },
     }),
@@ -39,7 +48,8 @@ const userSlice = api.injectEndpoints({
 
 export const {
   useAdminQuery,
-  useUsersQuery,
-  useVendorsQuery,
-  useUserByIdQuery,
+  useGetStudentsQuery,
+  useGetStudentByIdQuery,
+  useGetTeachersQuery,
+  useGetTeacherByIdQuery,
 } = userSlice;

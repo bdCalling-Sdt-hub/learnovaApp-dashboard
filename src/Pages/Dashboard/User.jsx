@@ -1,12 +1,84 @@
 import React, { useState } from "react";
 import { ConfigProvider, Input, Table, Select } from "antd";
 import { useParams } from "react-router-dom";
+import logo from "../../assets/logo.png";
+import { useGetStudentByIdQuery } from "../../redux/apiSlices/userSlice";
 
 const { Search } = Input;
 const { Option } = Select;
 
+const initialData = [
+  {
+    key: "1",
+    courseName: "Mathematics",
+    level: "Advanced",
+    grade: "10th",
+    teacherName: "Mr. Smith",
+    enrollDate: "01-09-2024",
+    status: "Active",
+  },
+  {
+    key: "2",
+    courseName: "Science",
+    level: "Intermediate",
+    grade: "10th",
+    teacherName: "Ms. Johnson",
+    enrollDate: "15-08-2024",
+    status: "Active",
+  },
+  {
+    key: "3",
+    courseName: "History",
+    level: "Beginner",
+    grade: "10th",
+    teacherName: "Mr. Brown",
+    enrollDate: "10-07-2024",
+    status: "Completed",
+  },
+  {
+    key: "4",
+    courseName: "English Literature",
+    level: "Advanced",
+    grade: "10th",
+    teacherName: "Ms. Taylor",
+    enrollDate: "05-06-2024",
+    status: "Active",
+  },
+];
+
 const User = () => {
   const { id } = useParams();
+
+  const handleStatusFilter = (value) => {
+    setStatusFilter(value);
+    const filteredData = initialData.filter((item) =>
+      value ? item.status === value : true
+    );
+    setData(filteredData);
+  };
+
+  const handleSearch = (value) => {
+    const filteredData = initialData.filter((item) =>
+      item.courseName.toLowerCase().includes(value.toLowerCase())
+    );
+    setData(filteredData);
+  };
+  const [data, setData] = useState(initialData);
+  const [searchText, setSearchText] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+
+  const { data: userData, isLoading } = useGetStudentByIdQuery(id);
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={logo} alt="" />
+      </div>
+    );
+  }
+
+  const studentData = userData?.data;
+  // console.log(studentData);
 
   // Sample user data
   const user = {
@@ -25,49 +97,6 @@ const User = () => {
     grade: "10th",
     school: "ABC High School",
   };
-
-  const initialData = [
-    {
-      key: "1",
-      courseName: "Mathematics",
-      level: "Advanced",
-      grade: "10th",
-      teacherName: "Mr. Smith",
-      enrollDate: "01-09-2024",
-      status: "Active",
-    },
-    {
-      key: "2",
-      courseName: "Science",
-      level: "Intermediate",
-      grade: "10th",
-      teacherName: "Ms. Johnson",
-      enrollDate: "15-08-2024",
-      status: "Active",
-    },
-    {
-      key: "3",
-      courseName: "History",
-      level: "Beginner",
-      grade: "10th",
-      teacherName: "Mr. Brown",
-      enrollDate: "10-07-2024",
-      status: "Completed",
-    },
-    {
-      key: "4",
-      courseName: "English Literature",
-      level: "Advanced",
-      grade: "10th",
-      teacherName: "Ms. Taylor",
-      enrollDate: "05-06-2024",
-      status: "Active",
-    },
-  ];
-
-  const [data, setData] = useState(initialData);
-  const [searchText, setSearchText] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
 
   const columns = [
     {
@@ -113,23 +142,8 @@ const User = () => {
     },
   ];
 
-  const handleSearch = (value) => {
-    const filteredData = initialData.filter((item) =>
-      item.courseName.toLowerCase().includes(value.toLowerCase())
-    );
-    setData(filteredData);
-  };
-
-  const handleStatusFilter = (value) => {
-    setStatusFilter(value);
-    const filteredData = initialData.filter((item) =>
-      value ? item.status === value : true
-    );
-    setData(filteredData);
-  };
-
   const imgUrl =
-    user?.imgUrl ||
+    studentData?.profile ||
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmtj40PvvTQ1g64pgKZ2oKEk-tqT9rA4CXSA&s";
 
   return (
@@ -147,40 +161,37 @@ const User = () => {
               alt="img"
             />
             <div>
-              <h1 className="text-2xl font-bold">{user?.name}</h1>
-              <p className="text-sm text-gray-400">User ID: {user.id} </p>
+              <h1 className="text-2xl font-bold">{studentData?.name}</h1>
+              <p className="text-sm text-gray-400">
+                User ID: #{studentData?._id}{" "}
+              </p>
             </div>
           </div>
-          <div>
-            <h1 className="text-lg border px-2 py-1 hover:shadow-lg rounded-xl border-primary text-primary">
-              Subscribed to Student Yearly Package
-            </h1>
-          </div>
         </div>
-        <div className="grid my-5 grid-cols-2 gap-5 w-[70%]">
+        <div className="grid my-5 grid-cols-2 gap-5 w-[80%]">
           <div className="p-3 bg-white h-20 rounded-2xl shadow-sm">
             <h1 className="font-semibold text-sm border-b-2 border-dashed">
               Name
             </h1>
-            <p className="text-lg my-2">{user?.name}</p>
+            <p className="text-lg my-2">{studentData?.name || "Unknown"}</p>
           </div>
           <div className="p-3 bg-white h-20 rounded-2xl shadow-sm">
             <h1 className="font-semibold text-sm border-b-2 border-dashed">
               Email
             </h1>
-            <p className="text-lg my-2">{user?.email}</p>
+            <p className="text-lg my-2">{studentData?.email || "N/A"}</p>
           </div>
           <div className="p-3 bg-white h-20 rounded-2xl shadow-sm">
             <h1 className="font-semibold text-sm border-b-2 border-dashed">
               Current Grade
             </h1>
-            <p className="text-lg my-2">{user?.grade}</p>
+            <p className="text-lg my-2">{studentData?.grade || "N/A"}</p>
           </div>
           <div className="p-3 bg-white h-20 rounded-2xl shadow-sm">
             <h1 className="font-semibold text-sm border-b-2 border-dashed">
               Current School
             </h1>
-            <p className="text-lg my-2">{user?.school}</p>
+            <p className="text-lg my-2">{studentData?.school || "N/A"}</p>
           </div>
         </div>
       </div>
@@ -205,7 +216,7 @@ const User = () => {
         </div>
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={studentData?.enrollCourses}
           pagination={{ pageSize: 10 }}
         />
       </div>
