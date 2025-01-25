@@ -77,7 +77,7 @@ const SalesTrackingChart = () => {
           dataKey="Revenue"
           stackId="a"
           fill="#D7E8FD"
-          radius={[20, 20, 0, 0]}
+          radius={[5, 5, 0, 0]}
           barSize={50}
         />
       </BarChart>

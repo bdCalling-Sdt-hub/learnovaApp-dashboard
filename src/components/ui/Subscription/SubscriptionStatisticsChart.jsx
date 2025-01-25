@@ -72,14 +72,24 @@ const data = [
   },
 ];
 
-const SubscriptionStatisticsChart = () => {
+const SubscriptionStatisticsChart = ({ oneYearData }) => {
+  // console.log(oneYearData);
+
+  const slicedMonthName = oneYearData?.map((item) => item.month.slice(0, 3));
+
+  const modifiedData = oneYearData?.map((item, index) => ({
+    month: slicedMonthName[index],
+    monthly: item.monthly,
+    yearly: item.yearly,
+  }));
+
   return (
     <div className="h-[500px]">
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           width={500}
           height={200}
-          data={data}
+          data={modifiedData}
           margin={{
             top: 20,
             right: 30,
@@ -88,23 +98,13 @@ const SubscriptionStatisticsChart = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="month" />
           <YAxis yAxisId="left" orientation="left" stroke="#023F86" />
           <YAxis yAxisId="right" orientation="right" stroke="#008DE7" />
           <Tooltip />
           <Legend />
-          <Bar
-            yAxisId="left"
-            dataKey="monthlySubscription"
-            fill="#023F86"
-            barSize={20}
-          />
-          <Bar
-            yAxisId="right"
-            dataKey="yearlySubscription"
-            fill="#008DE7"
-            barSize={20}
-          />
+          <Bar yAxisId="left" dataKey="monthly" fill="#023F86" barSize={20} />
+          <Bar yAxisId="right" dataKey="yearly" fill="#008DE7" barSize={20} />
         </BarChart>
       </ResponsiveContainer>
     </div>

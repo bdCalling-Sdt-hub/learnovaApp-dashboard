@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Card, Table, Space, Button } from "antd";
+import { Avatar, Card, Table, Space, Button, Tag } from "antd";
 import { Link } from "react-router-dom";
 import randomImg from "../../assets/randomProfile2.jpg";
 
@@ -12,85 +12,67 @@ const Vendor = () => {
     address: "123 Main St, Cityville",
     experienceLevel: "Senior",
     rating: 4.8,
+    subject: "Math",
     totalServices: 120,
     totalEarnings: "$6000",
     status: "Active",
     profileImg: "https://randomuser.me/api/portraits/men/1.jpg",
-    reviews: [
+    courses: [
       {
         id: "r1",
-        customerName: "Alice Johnson",
-        rating: 5,
-        comment: "Great service, very professional!",
-        date: "2023-12-12",
+        courseName: "Course 1",
+        grade: "10th",
+        level: "Advanced",
+        publishDate: "2023-12-12",
+        status: "Active",
+        totalViews: 100,
       },
       {
         id: "r2",
-        customerName: "Bob Smith",
-        rating: 4,
-        comment: "Good experience overall.",
-        date: "2023-12-10",
+        courseName: "Course 2",
+        grade: "6th",
+        level: "Advanced",
+        publishDate: "2023-12-12",
+        status: "Pending",
+        totalViews: 130,
       },
       {
         id: "r3",
-        customerName: "Charlie Brown",
-        rating: 3,
-        comment: "Service was okay, could be better.",
-        date: "2023-12-09",
+        courseName: "Course 3",
+        grade: "8th",
+        level: "Advanced",
+        publishDate: "2023-12-12",
+        status: "Pending",
+        totalViews: 170,
       },
     ],
   };
 
   const columns = [
     {
-      title: "Customer Name",
-      dataIndex: "customerName",
-      key: "customerName",
+      title: "Course Name",
+      dataIndex: "courseName",
+      key: "courseName",
     },
     {
-      title: "Rating",
-      dataIndex: "rating",
-      key: "rating",
-      render: (rating) => (
-        <span className="text-yellow-500 font-bold">{rating} / 5</span>
-      ),
+      title: "Grade",
+      dataIndex: "grade",
+      key: "grade",
     },
     {
-      title: "Comment",
-      dataIndex: "comment",
-      key: "comment",
+      title: "Level",
+      dataIndex: "level",
+      key: "level",
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-      render: (date) => new Date(date).toLocaleDateString(),
+      title: "Publish Date",
+      dataIndex: "publishDate",
+      key: "publishDate",
     },
     {
-      title: "Actions",
-      key: "actions",
-      render: (text, record) => (
-        <Space>
-          <Button
-            className="border border-green-600 text-green-700 hover:bg-green-600 hover:text-white"
-            onClick={() => handleReviewAction(record.id, "approve")}
-          >
-            Approve
-          </Button>
-          <Button
-            className="border border-red-600 text-red-700 hover:bg-red-600 hover:text-white"
-            onClick={() => handleReviewAction(record.id, "reject")}
-          >
-            Reject
-          </Button>
-          <Button
-            className="border border-gray-600 text-gray-700 hover:bg-gray-600 hover:text-white"
-            onClick={() => handleReviewAction(record.id, "delete")}
-          >
-            Delete
-          </Button>
-        </Space>
-      ),
+      title: "Total Views",
+      dataIndex: "totalViews",
+      key: "totalViews",
     },
   ];
 
@@ -116,27 +98,19 @@ const Vendor = () => {
               <h2 className="text-3xl font-bold text-gray-800">
                 {barber.name}
               </h2>
-              <p className="text-gray-600 text-lg font-semibold">
-                {barber.email}
-              </p>
             </div>
           </div>
           <div className="ml-4 text-xl flex flex-col gap-1">
             <p className="text-gray-600">
-              <span className="font-semibold">Experience Level:</span>{" "}
-              {barber.experienceLevel}
-            </p>
-
-            <p className="text-gray-600">
-              <span className="font-semibold">Phone Number:</span>{" "}
-              {barber.phoneNumber}
+              <span className="font-semibold">Email: </span>
+              {barber.email}
             </p>
             <p className="text-gray-600">
-              <span className="font-semibold">Address: </span>
-              {barber.address}
+              <span className="font-semibold">Subject: </span>
+              {barber.subject}
             </p>
             <p className="text-gray-600">
-              <span className="font-semibold">Total Services</span>{" "}
+              <span className="font-semibold">Total Courses</span>{" "}
               {barber.totalServices}
             </p>
             <p className="text-gray-600">
@@ -157,18 +131,14 @@ const Vendor = () => {
                 {barber.status}
               </span>
             </p>
-            <p className="text-gray-600">
-              <span className="font-semibold">Average Rating:</span>{" "}
-              {barber.rating}
-            </p>
           </div>
         </div>
       </div>
 
-      <Card title="Customer Reviews" className="shadow-lg mt-20">
+      <Card title="Courses" className="shadow-lg mt-20">
         <Table
           columns={columns}
-          dataSource={barber.reviews}
+          dataSource={barber.courses}
           rowKey={(record) => record.id}
         />
       </Card>

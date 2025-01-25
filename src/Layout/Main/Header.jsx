@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { FaPlus, FaRegBell } from "react-icons/fa6";
 import { Badge, Button, Modal, Input } from "antd";
 import logo from "../../assets/randomProfile2.jpg";
-import { useFetchAdminProfileQuery } from "../../redux/apiSlices/authSlice";
+import { useAdminProfileQuery } from "../../redux/apiSlices/authSlice";
 
 const Header = () => {
-  const { data: userData, isLoading } = useFetchAdminProfileQuery();
+  const { data: userData, isLoading } = useAdminProfileQuery(undefined);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [supportEmail, setSupportEmail] = useState("");
 
@@ -17,6 +17,8 @@ const Header = () => {
       </div>
     );
   }
+  const adminData = userData?.data;
+  // console.log(adminData);
 
   const handleAddSupportEmail = () => {
     // Logic to handle the support email submission
@@ -49,16 +51,16 @@ const Header = () => {
             height: 45,
           }}
           src={
-            userData?.data?.profileImg
-              ? `${import.meta.env.VITE_BASE_URL}${userData?.data?.profileImg}`
-              : logo
+            adminData?.profile?.startsWith("http")
+              ? adminData?.profile
+              : `${import.meta.env.VITE_BASE_URL}${adminData?.profile}` || logo
           }
           alt="person-male--v2"
           className="clip"
         />
         <div className="flex pr-2 flex-col">
-          <p className="text-xl">{userData?.data?.name || "Shakib Al Hasan"}</p>
-          <p className="text-sm text-gray-500">{userData?.data?.role}</p>
+          <p className="text-xl">{adminData?.name || "Shakib Al Hasan"}</p>
+          <p className="text-sm text-gray-500">{adminData?.role || "Admin"}</p>
         </div>
       </div>
 

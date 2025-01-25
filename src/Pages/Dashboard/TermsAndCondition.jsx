@@ -3,26 +3,22 @@ import JoditEditor from "jodit-react";
 import Title from "../../components/common/Title";
 import toast from "react-hot-toast";
 import logo from "../../assets/logo.png";
+import {
+  useTermsAndConditionQuery,
+  useUpdateTermsAndConditionsMutation,
+} from "../../redux/apiSlices/termsAndConditionSlice";
 
 const TermsAndCondition = () => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
-  const [selectedTab, setSelectedTab] = useState("USER");
-  const isLoading = false;
 
-  useEffect(() => {
-    setContent(content);
-  }, [selectedTab]);
+  const {
+    data: termsAndCondition,
+    isLoading,
+    refetch,
+  } = useTermsAndConditionQuery();
 
-  // const {
-  //   data: termsAndCondition,
-  //   isLoading,
-  //   refetch,
-  // } = useTermsAndConditionQuery(selectedTab);
-
-  // const [updateTermsAndConditions] = useUpdateTermsAndConditionsMutation();
-
-  const termsAndCondition = [];
+  const [updateTermsAndConditions] = useUpdateTermsAndConditionsMutation();
 
   if (isLoading) {
     return (
@@ -32,12 +28,13 @@ const TermsAndCondition = () => {
     );
   }
 
-  const termsAndConditionData = termsAndCondition?.content;
+  const termsAndConditionData = termsAndCondition?.data?.content;
+
+  // console.log(termsAndConditionData);
 
   const termsDataSave = async () => {
     const data = {
       content: content,
-      userType: selectedTab,
     };
 
     try {
@@ -54,42 +51,9 @@ const TermsAndCondition = () => {
     }
   };
 
-  // const tabContent = {
-  //   USER: termsAndConditionData,
-  //   VENDOR: termsAndConditionData,
-  //   CUSTOMER: termsAndConditionData,
-  // };
-
   return (
     <div>
       <Title className="mb-4">Terms and Conditions</Title>
-
-      {/* <div className="flex justify-center gap-4 mb-4">
-        <button
-          className={`px-4 rounded-2xl py-2 ${
-            selectedTab === "USER" ? "bg-primary text-white" : "bg-gray-200"
-          }`}
-          onClick={() => setSelectedTab("USER")}
-        >
-          Users
-        </button>
-        <button
-          className={`px-4 rounded-2xl py-2 ${
-            selectedTab === "VENDOR" ? "bg-primary text-white" : "bg-gray-200"
-          }`}
-          onClick={() => setSelectedTab("VENDOR")}
-        >
-          Vendors
-        </button>
-        <button
-          className={`px-4 rounded-2xl py-2 ${
-            selectedTab === "CUSTOMER" ? "bg-primary text-white" : "bg-gray-200"
-          }`}
-          onClick={() => setSelectedTab("CUSTOMER")}
-        >
-          Customers
-        </button>
-      </div> */}
 
       <JoditEditor
         ref={editor}

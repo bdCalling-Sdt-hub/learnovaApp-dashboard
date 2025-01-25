@@ -6,6 +6,7 @@ import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import {
+  useAdminProfileQuery,
   useFetchAdminProfileQuery,
   useUpdateAdminProfileMutation,
 } from "../../../redux/apiSlices/authSlice";
@@ -21,14 +22,11 @@ const PersonalInfo = () => {
   const [file, setFile] = useState(null);
   const [form] = Form.useForm();
 
-  const isLoading = false;
-
-  // const { data: fetchAdminProfile, isLoading } = useFetchAdminProfileQuery();
+  const { data: adminProfile, isLoading } = useAdminProfileQuery();
   // const [updateAdminProfile] = useUpdateAdminProfileMutation();
 
-  const fetchAdminProfile = [];
-
-  const adminData = fetchAdminProfile?.data;
+  const adminData = adminProfile?.data;
+  // console.log(adminData);
 
   useEffect(() => {
     if (adminData) {
@@ -38,7 +36,11 @@ const PersonalInfo = () => {
         address: adminData?.address,
         phone: adminData?.contact,
       });
-      setImgURL(`${baseUrl}${adminData?.profileImg}`);
+      setImgURL(
+        adminData?.profile?.startsWith("http")
+          ? adminData?.profile
+          : `${baseUrl}${adminData?.profile}`
+      );
       setContact(adminData?.contact);
     }
   }, [form, adminData]);
@@ -124,29 +126,6 @@ const PersonalInfo = () => {
             >
               <Input readOnly className="py-3 bg-gray-100 rounded-xl" />
             </Form.Item>
-            <Form.Item
-              name="address"
-              label="Address"
-              rules={[{ required: true, message: "Please enter your Address" }]}
-            >
-              <Input className="py-3 bg-gray-100 rounded-xl" />
-            </Form.Item>
-
-            <Form.Item
-              label="Phone"
-              name="phone"
-              rules={[
-                { required: true, message: "Please enter your phone number" },
-              ]}
-            >
-              <PhoneInput
-                country="us"
-                value={contact}
-                onChange={setContact}
-                inputClass="!w-full !px-4 !py-3 !py-5 !ps-12 !border !border-gray-300 !rounded-lg !focus:outline-none !focus:ring-2 !focus:ring-blue-400"
-                containerClass="!w-full"
-              />
-            </Form.Item>
 
             <Form.Item>
               <Button
@@ -176,7 +155,7 @@ const PersonalInfo = () => {
             />
             <label
               htmlFor="img"
-              className="relative w-48 h-48 cursor-pointer rounded-full border border-primary bg-white bg-cover bg-center"
+              className="relative w-36 h-36 cursor-pointer rounded-full border border-primary bg-white bg-cover bg-center"
               style={{ backgroundImage: `url(${imgURL ? imgURL : logo})` }}
             >
               <div className="absolute bottom-1 right-1 w-12 h-12 rounded-full border-2 border-primary bg-gray-100 flex items-center justify-center">
@@ -186,10 +165,6 @@ const PersonalInfo = () => {
                 />
               </div>
             </label>
-            <div className="text-center">
-              <h1>Profile</h1>
-              <h1 className="text-xl">Admin</h1>
-            </div>
           </div>
         </div>
       </div>

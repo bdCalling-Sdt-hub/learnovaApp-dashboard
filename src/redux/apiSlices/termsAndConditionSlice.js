@@ -5,21 +5,16 @@ const termsAndConditionSlice = api.injectEndpoints({
     updateTermsAndConditions: builder.mutation({
       query: (data) => {
         return {
-          url: `/others/terms-and-condition`,
+          url: `/rule/terms-and-conditions`,
           method: "POST",
           body: data,
-          headers: {
-            Authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("token")
-            )}`,
-          },
         };
       },
     }),
     termsAndCondition: builder.query({
-      query: (userType) => {
+      query: () => {
         return {
-          url: `/others/terms-and-conditions/${userType}`,
+          url: `/rule/terms-and-conditions`,
           method: "GET",
           headers: {
             Authorization: `Bearer ${JSON.parse(
@@ -28,9 +23,46 @@ const termsAndConditionSlice = api.injectEndpoints({
           },
         };
       },
-      transformResponse: ({ data }) => {
-        return data;
+    }),
+
+    //faq
+    getAllFaq: builder.query({
+      query: () => {
+        return {
+          url: `/faq`,
+          method: "GET",
+        };
       },
+      providesTags: ["Faq"],
+    }),
+    addFaq: builder.mutation({
+      query: ({ data }) => {
+        return {
+          url: `/faq`,
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["Faq"],
+    }),
+    updateFaq: builder.mutation({
+      query: ({ data, id }) => {
+        return {
+          url: `/faq/${id}`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+      invalidatesTags: ["Faq"],
+    }),
+    deleteFaq: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/faq/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["Faq"],
     }),
   }),
 });
@@ -38,4 +70,10 @@ const termsAndConditionSlice = api.injectEndpoints({
 export const {
   useTermsAndConditionQuery,
   useUpdateTermsAndConditionsMutation,
+
+  //faq
+  useGetAllFaqQuery,
+  useAddFaqMutation,
+  useUpdateFaqMutation,
+  useDeleteFaqMutation,
 } = termsAndConditionSlice;

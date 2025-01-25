@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Button, Space, Avatar, Select } from "antd";
+import { Table, Button, Space, Avatar, Select, Tooltip } from "antd";
 import { Link } from "react-router-dom";
 import randomImg from "../../assets/randomProfile2.jpg";
 
@@ -17,7 +17,7 @@ const Vendors = () => {
           email: "john@example.com",
           phoneNumber: "+123456789",
           address: "123 Main St, Cityville",
-          experienceLevel: "Senior",
+          subject: "Math",
           rating: 4.8,
           totalServices: 120,
           totalEarnings: "$6000",
@@ -31,7 +31,7 @@ const Vendors = () => {
           email: "jane@example.com",
           phoneNumber: "+123456780",
           address: "456 Secondary St, Townsville",
-          experienceLevel: "Intermediate",
+          subject: "Math",
           rating: 4.5,
           totalServices: 200,
           totalEarnings: "$8000",
@@ -45,7 +45,7 @@ const Vendors = () => {
           email: "sam@example.com",
           phoneNumber: "+123456781",
           address: "789 Tertiary St, Suburb",
-          experienceLevel: "Junior",
+          subject: "Math",
           rating: 4.2,
           totalServices: 50,
           totalEarnings: "$2000",
@@ -97,42 +97,13 @@ const Vendors = () => {
       dataIndex: "email",
       key: "email",
     },
+
     {
-      title: "Phone Number",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
+      title: "Subject",
+      dataIndex: "subject",
+      key: "subject",
     },
-    {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
-    },
-    {
-      title: "Experience Level",
-      dataIndex: "experienceLevel",
-      key: "experienceLevel",
-    },
-    {
-      title: "Rating",
-      dataIndex: "rating",
-      key: "rating",
-      sorter: (a, b) => a.rating - b.rating,
-      render: (rating) => `${rating}`,
-    },
-    {
-      title: "Total Services",
-      dataIndex: "totalServices",
-      key: "totalServices",
-      sorter: (a, b) => a.totalServices - b.totalServices,
-    },
-    {
-      title: "Total Earnings",
-      dataIndex: "totalEarnings",
-      key: "totalEarnings",
-      sorter: (a, b) =>
-        parseFloat(a.totalEarnings.replace("$", "")) -
-        parseFloat(b.totalEarnings.replace("$", "")),
-    },
+
     {
       title: "Status",
       dataIndex: "status",
@@ -156,44 +127,22 @@ const Vendors = () => {
         return <span style={{ color }}>{status}</span>;
       },
     },
-    {
-      title: "Complaint",
-      dataIndex: "complaint",
-      key: "complaint",
-      filters: [
-        { text: "None", value: "None" },
-        { text: "Has Complaints", value: "HasComplaints" },
-      ],
-      onFilter: (value, record) => {
-        if (value === "None") {
-          return !record.complaint;
-        } else if (value === "HasComplaints") {
-          return record.complaint !== null;
-        }
-        return true;
-      },
-      render: (complaint) =>
-        complaint ? (
-          <span className="text-red-700 font-semibold">
-            {complaint.amount},<br /> for {complaint.reason}
-          </span>
-        ) : (
-          "None"
-        ),
-    },
+
     {
       title: "Actions",
       key: "actions",
       render: (text, record) => (
         <Space>
-          <Link to={`/barber/profile/${record.id}`}>
-            <Button className="bg-[#FFF4E3] text-[#F3B806] border-none">
+          <Link to={`/teachers/profile/${record.id}`}>
+            <Button className="bg-[#f7bc64] text-black border-none">
               Details
             </Button>
           </Link>
 
           <Button className="border border-red-600 text-red-700">
-            Restrict
+            <Tooltip title="This button will send a PATCH request to switch the status approve and restrict. The button will change according the status.">
+              Approve/Restrict
+            </Tooltip>
           </Button>
         </Space>
       ),
@@ -232,7 +181,7 @@ const Vendors = () => {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold  my-5">Barbers</h1>
+      <h1 className="text-2xl font-semibold  my-5">Teachers</h1>
       <Table
         className="bg-white"
         pagination={{

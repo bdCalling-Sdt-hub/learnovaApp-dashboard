@@ -18,6 +18,7 @@ const Users = () => {
           phoneNumber: "+123456789",
           address: "123 Main St, Springfield",
           totalServices: 12,
+          grade: "Primary 6",
           subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/men/1.jpg",
           fine: 50,
@@ -29,6 +30,7 @@ const Users = () => {
           phoneNumber: "+987654321",
           address: "456 Elm St, Springfield",
           totalServices: 5,
+          grade: "Primary 5",
           subscription: "Monthly",
           profileImg: "https://randomuser.me/api/portraits/women/2.jpg",
         },
@@ -39,6 +41,7 @@ const Users = () => {
           phoneNumber: "+192837465",
           address: "789 Oak St, Springfield",
           totalServices: 3,
+          grade: "Primary 3",
           subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/men/3.jpg",
           fine: 30,
@@ -50,6 +53,7 @@ const Users = () => {
           phoneNumber: "+456789123",
           address: "321 Pine St, Springfield",
           totalServices: 8,
+          grade: "Primary 4",
           subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/women/4.jpg",
           fine: 0,
@@ -61,6 +65,7 @@ const Users = () => {
           phoneNumber: "+789456123",
           address: "654 Maple St, Springfield",
           totalServices: 6,
+          grade: "Primary 6",
           subscription: "Monthly",
           profileImg: "https://randomuser.me/api/portraits/men/5.jpg",
         },
@@ -71,101 +76,10 @@ const Users = () => {
           phoneNumber: "+123987654",
           address: "987 Birch St, Springfield",
           totalServices: 7,
+          grade: "Primary 7",
           subscription: "Yearly",
           profileImg: "https://randomuser.me/api/portraits/women/6.jpg",
           fine: 40,
-        },
-        {
-          id: "7",
-          name: "David Wilson",
-          email: "david@example.com",
-          phoneNumber: "+456321789",
-          address: "321 Cedar St, Springfield",
-          totalServices: 10,
-          subscription: "Yearly",
-          profileImg: "https://randomuser.me/api/portraits/men/7.jpg",
-        },
-        {
-          id: "8",
-          name: "Olivia Miller",
-          email: "olivia@example.com",
-          phoneNumber: "+789123456",
-          address: "654 Walnut St, Springfield",
-          totalServices: 9,
-          subscription: "Monthly",
-          profileImg: "https://randomuser.me/api/portraits/women/8.jpg",
-        },
-        {
-          id: "9",
-          name: "Liam Martinez",
-          email: "liam@example.com",
-          phoneNumber: "+123456987",
-          address: "987 Cedar St, Springfield",
-          totalServices: 4,
-          subscription: "Yearly",
-          profileImg: "https://randomuser.me/api/portraits/men/9.jpg",
-          fine: 25,
-        },
-        {
-          id: "10",
-          name: "Ava Hernandez",
-          email: "ava@example.com",
-          phoneNumber: "+456987123",
-          address: "321 Birch St, Springfield",
-          totalServices: 11,
-          subscription: "Yearly",
-          profileImg: "https://randomuser.me/api/portraits/women/10.jpg",
-        },
-        {
-          id: "11",
-          name: "James Anderson",
-          email: "james@example.com",
-          phoneNumber: "+789123789",
-          address: "654 Pine St, Springfield",
-          totalServices: 5,
-          subscription: "Yearly",
-          profileImg: "https://randomuser.me/api/portraits/men/11.jpg",
-        },
-        {
-          id: "12",
-          name: "Isabella Garcia",
-          email: "isabella@example.com",
-          phoneNumber: "+123789456",
-          address: "987 Maple St, Springfield",
-          totalServices: 13,
-          subscription: "Yearly",
-          profileImg: "https://randomuser.me/api/portraits/women/12.jpg",
-        },
-        {
-          id: "13",
-          name: "Lucas Martinez",
-          email: "lucas@example.com",
-          phoneNumber: "+456321654",
-          address: "321 Walnut St, Springfield",
-          totalServices: 6,
-          subscription: "Yearly",
-          profileImg: "https://randomuser.me/api/portraits/men/13.jpg",
-        },
-        {
-          id: "14",
-          name: "Emma Harris",
-          email: "emma@example.com",
-          phoneNumber: "+789654321",
-          address: "654 Cedar St, Springfield",
-          totalServices: 7,
-          subscription: "Yearly",
-          profileImg: "https://randomuser.me/api/portraits/women/14.jpg",
-          fine: 35,
-        },
-        {
-          id: "15",
-          name: "Ethan Thompson",
-          email: "ethan@example.com",
-          phoneNumber: "+123321456",
-          address: "987 Pine St, Springfield",
-          totalServices: 8,
-          subscription: "Yearly",
-          profileImg: "https://randomuser.me/api/portraits/men/15.jpg",
         },
       ],
     },
@@ -208,13 +122,11 @@ const Users = () => {
       dataIndex: "email",
       key: "email",
     },
-
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: "Grade",
+      dataIndex: "grade",
+      key: "grade",
     },
-
     {
       title: "Subscription",
       dataIndex: "subscription",
@@ -247,9 +159,6 @@ const Users = () => {
             </Button>
           </Link>
           <Button className="border ">Action</Button>
-          <Button className="border border-red-600 text-red-700">
-            Restrict
-          </Button>
         </Space>
       ),
     },
@@ -257,7 +166,7 @@ const Users = () => {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold  my-5">Users</h1>
+      <h1 className="text-2xl font-semibold  my-5">Students</h1>
       <Table
         columns={columns}
         dataSource={data}

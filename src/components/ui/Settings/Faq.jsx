@@ -4,47 +4,46 @@ import { GoQuestion } from "react-icons/go";
 import { CiEdit } from "react-icons/ci";
 import { RxCross2 } from "react-icons/rx";
 import FaqModal from "../../ui/FAQ/FaqModal";
+import {
+  useDeleteFaqMutation,
+  useGetAllFaqQuery,
+  useUpdateFaqMutation,
+} from "../../../redux/apiSlices/termsAndConditionSlice";
+import logo from "../../../assets/logo.png";
+import toast from "react-hot-toast";
 
 const Faq = () => {
   const [openAddModel, setOpenAddModel] = useState(false);
   const [modalData, setModalData] = useState(null);
 
-  const handleDelete = async (id) => {
-    // Handle delete logic here
-  };
+  const { data: faqData, isLoading } = useGetAllFaqQuery();
+  const [deleteFaq] = useDeleteFaqMutation();
 
-  const faqInfo = [
-    {
-      _id: "1",
-      question: "What is your return policy?",
-      answer:
-        "Our return policy allows returns within 30 days of purchase with a valid receipt. Items must be in their original condition.",
-    },
-    {
-      _id: "2",
-      question: "How can I track my order?",
-      answer:
-        "You can track your order by using the tracking link sent to your email upon shipment. Alternatively, log in to your account to view the order status.",
-    },
-    {
-      _id: "3",
-      question: "Do you offer international shipping?",
-      answer:
-        "Yes, we offer international shipping to selected countries. Please check our shipping information page for more details.",
-    },
-    {
-      _id: "4",
-      question: "How do I reset my password?",
-      answer:
-        "To reset your password, click on 'Forgot Password' on the login page. A password reset link will be sent to your registered email address.",
-    },
-    {
-      _id: "5",
-      question: "How do I reset my password?",
-      answer:
-        "To reset your password, click on 'Forgot Password' on the login page. A password reset link will be sent to your registered email address.",
-    },
-  ];
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={logo} alt="" />
+      </div>
+    );
+  }
+
+  const allFaq = faqData?.data;
+
+  // console.log(allFaq);
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await deleteFaq(id).unwrap();
+      console.log(response);
+      if (response.success) {
+        toast.success("Faq deleted successfully");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || "Something went wrong");
+    }
+  };
 
   return (
     <div className="">
@@ -59,7 +58,7 @@ const Faq = () => {
       </div>
 
       <div className=" pb-6 px-4 rounded-md">
-        {faqInfo?.map((item, index) => (
+        {allFaq?.map((item, index) => (
           <div
             key={index}
             className="flex justify-between items-start gap-4 py-4 px-4 rounded-lg bg-white mb-3"

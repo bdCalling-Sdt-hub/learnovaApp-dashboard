@@ -13,15 +13,8 @@ const ChangePassword = () => {
     conPassError: "",
   });
 
-  // const [changePassword, { isLoading }] = useChangePasswordMutation();
+  const [changePassword] = useChangePasswordMutation();
 
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <img src={logo} alt="" />
-      </div>
-    );
-  }
   const validatePasswordChange = (values) => {
     let errors = {};
 

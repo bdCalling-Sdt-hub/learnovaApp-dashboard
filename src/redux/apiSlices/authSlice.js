@@ -31,7 +31,7 @@ const authSlice = api.injectEndpoints({
       query: (data) => {
         return {
           method: "POST",
-          url: "auth/forget-password",
+          url: "auth/forgot-password",
           body: data,
         };
       },
@@ -91,21 +91,16 @@ const authSlice = api.injectEndpoints({
       invalidatesTags: ["AdminData"],
     }),
 
-    profile: builder.query({
+    adminProfile: builder.query({
       query: () => {
         return {
           method: "GET",
-          url: "/auth/get-profile",
-          headers: {
-            Authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("token")
-            )}`,
-          },
+          url: "/user/profile",
         };
       },
       providesTags: ["AdminData"],
 
-      transformResponse: ({ user }) => {
+      transformResponse: (user) => {
         return user;
       },
     }),
@@ -127,7 +122,7 @@ export const {
   useResetPasswordMutation,
   useChangePasswordMutation,
   useUpdateProfileMutation,
-  useProfileQuery,
+  useAdminProfileQuery,
   useUpdateAdminProfileMutation,
   useFetchAdminProfileQuery,
 } = authSlice;

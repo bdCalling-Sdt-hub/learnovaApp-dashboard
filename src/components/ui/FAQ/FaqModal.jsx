@@ -1,5 +1,10 @@
 import { Form, Input, Modal } from "antd";
 import React, { useEffect } from "react";
+import {
+  useAddFaqMutation,
+  useUpdateFaqMutation,
+} from "../../../redux/apiSlices/termsAndConditionSlice";
+import toast from "react-hot-toast";
 
 const FaqModal = ({
   setModalData,
@@ -8,6 +13,9 @@ const FaqModal = ({
   setOpenAddModel,
 }) => {
   const [form] = Form.useForm();
+
+  const [updateFaq] = useUpdateFaqMutation();
+  const [addFaq] = useAddFaqMutation();
 
   useEffect(() => {
     if (modalData) {
@@ -18,8 +26,46 @@ const FaqModal = ({
     }
   }, [modalData]);
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log(values);
+    if (modalData) {
+      try {
+        const response = await updateFaq({
+          data: values,
+          id: modalData?._id,
+        });
+        console.log(response);
+        if (response.data.success) {
+          toast.success("Faq updated successfully");
+          setOpenAddModel(false);
+          setModalData(null);
+          form.resetFields();
+        } else {
+          toast.error("Something went wrong");
+        }
+      } catch (error) {
+        console.error("Update failed:", error);
+        toast.error("An error occurred while updating the Faq");
+      }
+    } else {
+      try {
+        const response = await addFaq({
+          data: values,
+        }).unwrap();
+        console.log(response);
+        if (response.success) {
+          toast.success("Faq added successfully");
+          setOpenAddModel(false);
+          setModalData(null);
+          form.resetFields();
+        } else {
+          toast.error("Something went wrong");
+        }
+      } catch (error) {
+        console.error("Add failed:", error);
+        toast.error("An error occurred while adding the Faq");
+      }
+    }
   };
   return (
     <Modal

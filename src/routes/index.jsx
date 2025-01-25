@@ -77,16 +77,16 @@ const router = createBrowserRouter([
         element: <User />,
       },
       {
-        path: "/barber/profile/:id",
+        path: "/teachers/profile/:id",
         element: <Vendor />,
       },
 
       {
-        path: "/users",
+        path: "/students",
         element: <Users />,
       },
       {
-        path: "/vendors",
+        path: "/teachers",
         element: <Vendors />,
       },
       {

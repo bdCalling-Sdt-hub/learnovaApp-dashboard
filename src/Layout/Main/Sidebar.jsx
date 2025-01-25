@@ -31,8 +31,10 @@ const Sidebar = () => {
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("role");
     sessionStorage.removeItem("authToken");
     sessionStorage.removeItem("refreshToken");
+    sessionStorage.removeItem("role");
     Cookies.remove("refreshToken");
     navigate("/auth/login");
   };
@@ -63,9 +65,21 @@ const Sidebar = () => {
     //   label: <Link to="/category">Category</Link>,
     // },
     {
-      key: "/users",
+      key: "/subMenuUsers",
       icon: <TbUserScreen size={24} />,
-      label: <Link to="/users">Users</Link>,
+      label: "Users",
+      children: [
+        {
+          key: "/students",
+          icon: <TbUserScreen size={24} />,
+          label: <Link to="/students">Students</Link>,
+        },
+        {
+          key: "/teachers",
+          icon: <PiUserPlus size={24} />,
+          label: <Link to="/teachers">Teachers</Link>,
+        },
+      ],
     },
     // {
     //   key: "/vendors",
@@ -173,14 +187,14 @@ const Sidebar = () => {
             </Link>
           ),
         },
-        {
-          key: "/privacy-policy",
-          label: (
-            <Link to="/privacy-policy" className="text-white hover:text-white">
-              Privacy Policy
-            </Link>
-          ),
-        },
+        // {
+        //   key: "/privacy-policy",
+        //   label: (
+        //     <Link to="/privacy-policy" className="text-white hover:text-white">
+        //       Privacy Policy
+        //     </Link>
+        //   ),
+        // },
         {
           key: "/f-a-q",
           label: (

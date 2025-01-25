@@ -1,5 +1,5 @@
 import randomImg from "../../../assets/randomProfile2.jpg";
-import salongoLogo from "../../../assets/salon-go-logo.png";
+import logo from "../../../assets/logo.png";
 
 // Dummy data for Professionals Component
 
@@ -45,7 +45,7 @@ const Professionals = () => {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <img src={salongoLogo} alt="" />
+        <img src={logo} alt="" />
       </div>
     );
   }
