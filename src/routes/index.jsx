@@ -45,11 +45,11 @@ import Vendor from "../Pages/Dashboard/Vendor";
 const router = createBrowserRouter([
   {
     path: "/",
-    // element: <ProtectedRoute><Main /></ProtectedRoute> ,
+
     element: (
-      // <PrivateRoute>
-      <Main />
-      // </PrivateRoute>
+      <PrivateRoute>
+        <Main />
+      </PrivateRoute>
     ),
     children: [
       {

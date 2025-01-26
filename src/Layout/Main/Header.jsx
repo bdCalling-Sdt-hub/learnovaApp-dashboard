@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
 const Header = () => {
-  const [notification, setNotification] = useState(0);
+  const [notificationCount, setNotificationCount] = useState(0);
   const { data: userData, isLoading } = useAdminProfileQuery(undefined);
 
   if (isLoading) {
@@ -20,14 +20,20 @@ const Header = () => {
   const adminData = userData?.data;
   // console.log(adminData);
 
-  // useEffect(()=>{
-  //   const sokcket = io('http://10.0.80.75:6002', {
-  //     query:{
-  //       token: localStorage.getItem('authToken')
-  //     },
-  //   });
-  //   socket
-  // })
+  useEffect(() => {
+    const socket = io("http://10.0.80.75:6002", {
+      query: {
+        token: localStorage.getItem("authToken"),
+      },
+    });
+    socket.on("getNotification::679487c4d2218a363299ef28", (notification) => {
+      setNotificationCount((prev) => prev + 1);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   return (
     <div className="flex items-center gap-5 justify-end">
