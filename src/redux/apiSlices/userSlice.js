@@ -44,10 +44,11 @@ const userSlice = api.injectEndpoints({
       },
     }),
     approveRestrictTeacher: builder.mutation({
-      query: (id) => {
+      query: ({ id, data }) => {
         return {
           method: "PATCH",
           url: `/admin/approved-and-rejected-teacher/${id}`,
+          body: data,
         };
       },
     }),

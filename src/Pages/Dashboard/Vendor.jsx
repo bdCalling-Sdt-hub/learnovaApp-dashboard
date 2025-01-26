@@ -2,14 +2,23 @@ import React from "react";
 import { Avatar, Card, Table, Space, Button, Tag } from "antd";
 import { Link, useParams } from "react-router-dom";
 import randomImg from "../../assets/randomProfile2.jpg";
-import { useGetTeacherByIdQuery } from "../../redux/apiSlices/userSlice";
+import {
+  useApproveRestrictTeacherMutation,
+  useGetTeacherByIdQuery,
+} from "../../redux/apiSlices/userSlice";
 import logo from "../../assets/logo.png";
 import moment from "moment";
+import toast from "react-hot-toast";
 
 const Vendor = () => {
   const { id } = useParams();
 
-  const { data: singleTeacher, isLoading } = useGetTeacherByIdQuery(id);
+  const {
+    data: singleTeacher,
+    isLoading,
+    refetch,
+  } = useGetTeacherByIdQuery(id);
+  const [approveRestrictTeacher] = useApproveRestrictTeacherMutation();
 
   if (isLoading) {
     return (
@@ -55,9 +64,32 @@ const Vendor = () => {
     },
   ];
 
-  const handleReviewAction = (reviewId, action) => {
-    console.log(`${action} review with ID: ${reviewId}`);
-    // Implement the logic for approving, rejecting, or deleting the review
+  const handleChangeStatus = async (record) => {
+    let data = {};
+    if (record.status === "Approved") {
+      data = {
+        status: "Restricted",
+      };
+    } else {
+      data = {
+        status: "Approved",
+      };
+    }
+
+    try {
+      const res = await approveRestrictTeacher({
+        id: record._id,
+        data,
+      }).unwrap();
+      if (res.success) {
+        toast.success("Status changed successfully");
+        refetch();
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || "Something went wrong");
+    }
   };
 
   return (
@@ -115,6 +147,19 @@ const Vendor = () => {
                 {teacher.status}
               </span>
             </p>
+          </div>
+          <div className="flex ms-auto items-start justify-end">
+            <Button
+              hidden={teacher.status === "Approved"}
+              onClick={() => handleChangeStatus(teacher)}
+              className={`border-green-500 py-5 px-8 text-green-500 ${
+                teacher.status === "!Approved"
+                  ? "border-green-500 text-green-500"
+                  : ""
+              }`}
+            >
+              Approve
+            </Button>
           </div>
         </div>
       </div>

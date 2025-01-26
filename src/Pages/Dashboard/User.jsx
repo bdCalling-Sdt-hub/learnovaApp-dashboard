@@ -1,144 +1,72 @@
-import React, { useState } from "react";
-import { ConfigProvider, Input, Table, Select } from "antd";
+import React, { useEffect, useState } from "react";
+import { ConfigProvider, Input, Table } from "antd";
 import { useParams } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { useGetStudentByIdQuery } from "../../redux/apiSlices/userSlice";
+import moment from "moment";
 
 const { Search } = Input;
-const { Option } = Select;
-
-const initialData = [
-  {
-    key: "1",
-    courseName: "Mathematics",
-    level: "Advanced",
-    grade: "10th",
-    teacherName: "Mr. Smith",
-    enrollDate: "01-09-2024",
-    status: "Active",
-  },
-  {
-    key: "2",
-    courseName: "Science",
-    level: "Intermediate",
-    grade: "10th",
-    teacherName: "Ms. Johnson",
-    enrollDate: "15-08-2024",
-    status: "Active",
-  },
-  {
-    key: "3",
-    courseName: "History",
-    level: "Beginner",
-    grade: "10th",
-    teacherName: "Mr. Brown",
-    enrollDate: "10-07-2024",
-    status: "Completed",
-  },
-  {
-    key: "4",
-    courseName: "English Literature",
-    level: "Advanced",
-    grade: "10th",
-    teacherName: "Ms. Taylor",
-    enrollDate: "05-06-2024",
-    status: "Active",
-  },
-];
 
 const User = () => {
   const { id } = useParams();
-
-  const handleStatusFilter = (value) => {
-    setStatusFilter(value);
-    const filteredData = initialData.filter((item) =>
-      value ? item.status === value : true
-    );
-    setData(filteredData);
-  };
-
-  const handleSearch = (value) => {
-    const filteredData = initialData.filter((item) =>
-      item.courseName.toLowerCase().includes(value.toLowerCase())
-    );
-    setData(filteredData);
-  };
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
 
   const { data: userData, isLoading } = useGetStudentByIdQuery(id);
+
+  const studentData = userData?.data;
+  // console.log(userData);
+
+  useEffect(() => {
+    if (studentData?.enrollCourses) {
+      setData(studentData.enrollCourses);
+    }
+  }, [studentData]);
 
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <img src={logo} alt="" />
+        <img src={logo} alt="Loading" />
       </div>
     );
   }
 
-  const studentData = userData?.data;
-  // console.log(studentData);
+  // Set initial data when userData is fetched
 
-  // Sample user data
-  const user = {
-    name: "John Doe",
-    id: "#5568164",
-    email: "johndoe@example.com",
-    address: {
-      street: "123 Main St",
-      city: "Los Angeles",
-      state: "CA",
-      zip: "90001",
-      country: "USA",
-    },
-    phone: "+1 (555) 123-4567",
-    imgUrl: "https://randomuser.me/api/portraits/men/1.jpg",
-    grade: "10th",
-    school: "ABC High School",
+  const handleSearch = (value) => {
+    setSearchText(value);
+    const filteredData = studentData?.enrollCourses.filter((item) =>
+      item.course.title.toLowerCase().includes(value.toLowerCase())
+    );
+    setData(filteredData);
   };
 
   const columns = [
     {
       title: "Course Name",
-      dataIndex: "courseName",
+      dataIndex: ["course", "title"],
       key: "courseName",
     },
     {
       title: "Level",
-      dataIndex: "level",
+      dataIndex: ["course", "level"],
       key: "level",
     },
     {
       title: "Grade",
-      dataIndex: "grade",
+      dataIndex: ["course", "grade"],
       key: "grade",
     },
     {
       title: "Teacher Name",
-      dataIndex: "teacherName",
+      dataIndex: ["course", "teacher", "name"],
       key: "teacherName",
     },
     {
       title: "Enroll Date",
-      dataIndex: "enrollDate",
-      key: "enrollDate",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (text) => (
-        <span
-          className={
-            text === "Active"
-              ? "text-green-600 font-semibold"
-              : "text-gray-500 font-semibold"
-          }
-        >
-          {text}
-        </span>
-      ),
+      dataIndex: ["course", "createdAt"],
+      key: "createdAt",
+      render: (text) => moment(text).format("DD-MM-YYYY"),
     },
   ];
 
@@ -158,12 +86,12 @@ const User = () => {
                   ? imgUrl
                   : `${import.meta.env.VITE_BASE_URL}${imgUrl}`
               }
-              alt="img"
+              alt="Profile"
             />
             <div>
               <h1 className="text-2xl font-bold">{studentData?.name}</h1>
               <p className="text-sm text-gray-400">
-                User ID: #{studentData?._id}{" "}
+                User ID: #{studentData?._id}
               </p>
             </div>
           </div>
@@ -201,22 +129,15 @@ const User = () => {
           <Search
             placeholder="Search courses"
             onSearch={handleSearch}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
             style={{ width: 400 }}
           />
-          <Select
-            placeholder="Filter by status"
-            allowClear
-            value={statusFilter}
-            onChange={handleStatusFilter}
-            style={{ width: 200 }}
-          >
-            <Option value="Active">Active</Option>
-            <Option value="Completed">Completed</Option>
-          </Select>
         </div>
         <Table
+          rowKey="_id"
           columns={columns}
-          dataSource={studentData?.enrollCourses}
+          dataSource={data} // Use filtered data
           pagination={{ pageSize: 10 }}
         />
       </div>

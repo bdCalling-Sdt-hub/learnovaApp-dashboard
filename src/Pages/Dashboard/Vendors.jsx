@@ -13,7 +13,11 @@ const Vendors = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [page, setPage] = useState(1);
 
-  const { data: allTeachersData, isLoading } = useGetTeachersQuery(page);
+  const {
+    data: allTeachersData,
+    isLoading,
+    refetch,
+  } = useGetTeachersQuery(page);
   const [approveRestrictTeacher] = useApproveRestrictTeacherMutation();
 
   if (isLoading) {
@@ -27,7 +31,7 @@ const Vendors = () => {
   const teachersData = allTeachersData?.data;
   const { teachers } = teachersData;
   const { pagination } = teachersData;
-  console.log(teachers);
+  // console.log(teachers);
 
   // Dummy data for barbers
 
@@ -35,11 +39,26 @@ const Vendors = () => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
-  const handleChangeStatus = async (id) => {
+  const handleChangeStatus = async (record) => {
+    let data = {};
+    if (record.status === "Approved") {
+      data = {
+        status: "Restricted",
+      };
+    } else {
+      data = {
+        status: "Approved",
+      };
+    }
+
     try {
-      const res = await approveRestrictTeacher(id).unwrap();
+      const res = await approveRestrictTeacher({
+        id: record._id,
+        data,
+      }).unwrap();
       if (res.success) {
         toast.success("Status changed successfully");
+        refetch();
       } else {
         toast.error("Something went wrong");
       }
@@ -94,14 +113,11 @@ const Vendors = () => {
       render: (status) => {
         let color;
         switch (status) {
-          case "Active":
+          case "Approved":
             color = "green";
             break;
-          case "Inactive":
+          case "Restricted":
             color = "red";
-            break;
-          case "Suspended":
-            color = "orange";
             break;
           default:
             color = "gray";
@@ -122,15 +138,18 @@ const Vendors = () => {
             </Button>
           </Link>
 
-          {record.status === "approved" ? (
+          {record.status === "Approved" ? (
             <Button
-              onClick={() => handleChangeStatus(record._id)}
+              onClick={() => handleChangeStatus(record)}
               className="border border-red-600 text-red-700"
             >
               Restrict
             </Button>
           ) : (
-            <Button className="border border-green-600 text-green-700">
+            <Button
+              onClick={() => handleChangeStatus(record)}
+              className="border border-green-600 text-green-700"
+            >
               Approve
             </Button>
           )}

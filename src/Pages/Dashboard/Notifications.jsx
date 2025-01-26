@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { ConfigProvider, Pagination } from "antd";
 import Title from "../../components/common/Title";
-import { useNotificationQuery } from "../../redux/apiSlices/notificationSlice";
 import logo from "../../assets/logo.png";
+import {
+  useNotificationQuery,
+  useReadNotificationMutation,
+  useReadSingleNotificationMutation,
+} from "../../redux/apiSlices/notificationSlice";
+import moment from "moment";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const notificationsData = [
   {
@@ -73,9 +80,15 @@ const notificationsData = [
 
 const Notifications = () => {
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
-  const isLoading = false;
-  // const { data: notifications, isLoading } = useNotificationQuery();
+  const navigate = useNavigate();
+
+  const {
+    data: getNotifications,
+    isLoading,
+    refetch,
+  } = useNotificationQuery(page);
+  const [readSingleNotification] = useReadSingleNotificationMutation();
+  const [readNotification] = useReadNotificationMutation();
 
   if (isLoading) {
     return (
@@ -84,77 +97,88 @@ const Notifications = () => {
       </div>
     );
   }
-  const notifications = [];
-  const notificationData = notifications.data;
+
+  const notificationData = getNotifications?.data;
+  const { notifications } = notificationData;
+  const { pagination } = notificationData;
 
   console.log(notificationData);
 
-  const paginatedData = notificationsData.slice(
-    (page - 1) * pageSize,
-    page * pageSize
-  );
+  const handleReadSingleNotification = async (notification) => {
+    const redirectTo = `/${
+      notification?.screen === "REGISTER" ? "teachers/profile" : "auth/login"
+    }`;
+
+    try {
+      const response = await readSingleNotification(notification?._id).unwrap();
+      if (response.success) {
+        toast.success("Redirecting to " + redirectTo);
+        refetch();
+        navigate(`${redirectTo}/${notification?.referenceId}`);
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || "Something went wrong");
+    }
+  };
+
+  const readAllNotifications = async () => {
+    try {
+      const response = await readNotification().unwrap();
+      if (response.success) {
+        toast.success("All notifications read successfully");
+        refetch();
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || "Something went wrong");
+    }
+  };
 
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
         <Title className="text-[22px]">All Notifications</Title>
-        <button className="bg-[#023F86] text-white h-10 px-4 rounded-md">
+        <button
+          onClick={() => readAllNotifications()}
+          className="bg-[#023F86] text-white h-10 px-4 rounded-md"
+        >
           Read All
         </button>
       </div>
 
       <div className="grid grid-cols-1 gap-5 bg-white p-4 rounded-lg">
-        {paginatedData.map((notification) => (
-          <div
-            key={notification.id}
-            className="border-b-[1px] pb-2 border-[#d9d9d9] flex items-center gap-3"
-          >
-            <img
-              style={{
-                height: "50px",
-                width: "50px",
-                borderRadius: "100%",
-                border: "2px solid gray",
-              }}
-              src={notification.avatar}
-              alt={`${notification.sender} avatar`}
-            />
-            <div>
-              <p>
-                <span className="font-bold">{notification.sender}</span>:{" "}
-                {notification.message}
-              </p>
-              <p style={{ color: "gray", marginTop: "4px" }}>
-                {notification.timestamp}
-              </p>
+        {notifications?.map((notification) => {
+          return (
+            <div
+              onClick={() => handleReadSingleNotification(notification)}
+              key={notification._id}
+              className={`border-b-[1px] cursor-pointer pb-2 p-5 ${
+                notification?.read === true ? "" : "font-bold bg-slate-100"
+              } border-[#d9d9d9] flex items-center gap-3`}
+            >
+              <div>
+                <p>{notification?.text}</p>
+                <p
+                  className="text-[14px]"
+                  style={{ color: "gray", marginTop: "4px" }}
+                >
+                  {moment(notification?.createdAt).startOf("hour").fromNow()}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="flex items-center justify-center mt-6">
-        <ConfigProvider
-          theme={{
-            components: {
-              Pagination: {
-                itemActiveBg: "#FFE133",
-                borderRadius: "100%",
-              },
-            },
-          }}
-        >
-          <Pagination
-            current={page}
-            total={notificationsData.length}
-            pageSize={pageSize}
-            onChange={(page) => setPage(page)}
-            showQuickJumper={false}
-            showSizeChanger={true}
-            pageSizeOptions={["5", "10", "15"]}
-            onShowSizeChange={(current, size) => setPageSize(size)}
-            position={["bottomCenter"]}
-          />
-        </ConfigProvider>
+        <Pagination
+          total={pagination?.total}
+          pageSize={pagination?.limit}
+          onChange={(page) => setPage(page)}
+        />
       </div>
     </div>
   );

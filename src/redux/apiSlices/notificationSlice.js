@@ -5,30 +5,32 @@ const notificationSlice = api.injectEndpoints({
     notification: builder.query({
       query: () => {
         return {
-          url: `/notification`,
+          url: `/notification/admin`,
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("token")
-            )}`,
-          },
         };
       },
     }),
-    read: builder.mutation({
+    readNotification: builder.mutation({
       query: () => {
         return {
-          url: `/notifications`,
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("token")
-            )}`,
-          },
+          url: "/notification/admin",
+          method: "PATCH",
+        };
+      },
+    }),
+    readSingleNotification: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/notification/admin/${id}`,
+          method: "PATCH",
         };
       },
     }),
   }),
 });
 
-export const { useNotificationQuery, useReadMutation } = notificationSlice;
+export const {
+  useNotificationQuery,
+  useReadNotificationMutation,
+  useReadSingleNotificationMutation,
+} = notificationSlice;
