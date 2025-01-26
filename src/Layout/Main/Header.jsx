@@ -16,7 +16,8 @@ const Header = () => {
         token: localStorage.getItem("authToken"),
       },
     });
-    socket.on("getNotification::679487c4d2218a363299ef28", (notification) => {
+    socket.on("getNotification", (notification) => {
+      console.log(notification);
       setNotificationCount((prev) => prev + 1);
     });
 
@@ -38,7 +39,7 @@ const Header = () => {
   return (
     <div className="flex items-center gap-5 justify-end">
       <Link to="/notification" className="h-fit mt-[10px]">
-        <Badge count={5}>
+        <Badge count={notificationCount}>
           <FaRegBell color="#4E4E4E" size={24} />
         </Badge>
       </Link>

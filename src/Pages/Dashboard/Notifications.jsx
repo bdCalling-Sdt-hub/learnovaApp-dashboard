@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ConfigProvider, Pagination } from "antd";
 import Title from "../../components/common/Title";
 import logo from "../../assets/logo.png";
@@ -90,6 +90,10 @@ const Notifications = () => {
   const [readSingleNotification] = useReadSingleNotificationMutation();
   const [readNotification] = useReadNotificationMutation();
 
+  useEffect(() => {
+    refetch();
+  }, [page]);
+
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -106,7 +110,7 @@ const Notifications = () => {
 
   const handleReadSingleNotification = async (notification) => {
     const redirectTo = `/${
-      notification?.screen === "REGISTER" ? "teachers/profile" : "auth/login"
+      notification?.screen === "REGISTER" ? "teachers/profile" : "user/profile"
     }`;
 
     try {
@@ -150,27 +154,30 @@ const Notifications = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-5 bg-white p-4 rounded-lg">
-        {notifications?.map((notification) => {
-          return (
-            <div
-              onClick={() => handleReadSingleNotification(notification)}
-              key={notification._id}
-              className={`border-b-[1px] cursor-pointer pb-2 p-5 ${
-                notification?.read === true ? "" : "font-bold bg-slate-100"
-              } border-[#d9d9d9] flex items-center gap-3`}
-            >
-              <div>
-                <p>{notification?.text}</p>
-                <p
-                  className="text-[14px]"
-                  style={{ color: "gray", marginTop: "4px" }}
-                >
-                  {moment(notification?.createdAt).startOf("hour").fromNow()}
-                </p>
+        {notifications
+          ?.slice()
+          ?.reverse()
+          ?.map((notification) => {
+            return (
+              <div
+                onClick={() => handleReadSingleNotification(notification)}
+                key={notification._id}
+                className={`border-b-[1px] cursor-pointer pb-2 p-5 ${
+                  notification?.read === true ? "" : "font-bold bg-slate-100"
+                } border-[#d9d9d9] flex items-center gap-3`}
+              >
+                <div>
+                  <p>{notification?.text}</p>
+                  <p
+                    className="text-[14px]"
+                    style={{ color: "gray", marginTop: "4px" }}
+                  >
+                    {moment(notification?.createdAt).fromNow()}
+                  </p>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
 
       <div className="flex items-center justify-center mt-6">
