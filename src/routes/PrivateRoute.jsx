@@ -34,7 +34,8 @@ const PrivateRoute = ({ children }) => {
     }
   }, [navigate, location]);
 
-  const authToken = localStorage.getItem("authToken");
+  const authToken =
+    localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
   if (authToken) {
     try {
       const decodedToken = jwtDecode(authToken);

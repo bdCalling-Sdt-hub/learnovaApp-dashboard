@@ -27,14 +27,15 @@ const Login = () => {
         localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("role", role);
         Cookies.set("refreshToken", refreshToken);
+        navigate("/");
       } else {
         sessionStorage.setItem("authToken", accessToken);
         sessionStorage.setItem("refreshToken", refreshToken);
         sessionStorage.setItem("role", role);
         Cookies.set("refreshToken", refreshToken);
+        navigate("/");
       }
 
-      navigate("/");
       toast.success("Login successful!");
     } catch (error) {
       toast.error(error || "An error occurred", {
