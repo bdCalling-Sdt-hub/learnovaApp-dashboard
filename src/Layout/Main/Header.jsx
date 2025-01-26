@@ -10,16 +10,6 @@ const Header = () => {
   const [notificationCount, setNotificationCount] = useState(0);
   const { data: userData, isLoading } = useAdminProfileQuery(undefined);
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center my-20 text-lg text-secondary">
-        Loading...
-      </div>
-    );
-  }
-  const adminData = userData?.data;
-  // console.log(adminData);
-
   useEffect(() => {
     const socket = io("http://10.0.80.75:6002", {
       query: {
@@ -34,6 +24,16 @@ const Header = () => {
       socket.disconnect();
     };
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center my-20 text-lg text-secondary">
+        Loading...
+      </div>
+    );
+  }
+  const adminData = userData?.data;
+  // console.log(adminData);
 
   return (
     <div className="flex items-center gap-5 justify-end">
