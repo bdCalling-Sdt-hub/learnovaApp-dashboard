@@ -8,60 +8,42 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-
-const data = [
-  {
-    name: "Mo",
-    Sales: 4000,
-    Revenue: 2400,
-  },
-  {
-    name: "Tu",
-    Sales: 3000,
-    Revenue: 1398,
-  },
-  {
-    name: "We",
-    Sales: 6800,
-    Revenue: 3200,
-  },
-  {
-    name: "Th",
-    Sales: 4780,
-    Revenue: 1908,
-  },
-  {
-    name: "Fr",
-    Sales: 4890,
-    Revenue: 2800,
-  },
-  {
-    name: "Su",
-    Sales: 3390,
-    Revenue: 2800,
-  },
-  {
-    name: "St",
-    Sales: 3490,
-    Revenue: 1300,
-  },
-];
+import { useSalesAndRevenueChartQuery } from "../../../redux/apiSlices/dashboardSlice";
+import logo from "../../../assets/logo.png";
 
 const SalesTrackingChart = () => {
+  const { data: salesAndRevenueChart, isFetching } =
+    useSalesAndRevenueChartQuery();
+
+  if (isFetching) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <img src={logo} alt="" />
+      </div>
+    );
+  }
+
+  const dayMapping = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  const chartData = salesAndRevenueChart?.data?.map((item) => ({
+    ...item,
+    day: dayMapping[item.day - 1],
+  }));
+
   return (
     <ResponsiveContainer width="90%" height={230}>
       <BarChart
-        data={data}
+        data={chartData}
         margin={{
           top: 20,
           right: 30,
           left: 20,
           bottom: 5,
         }}
-        barCategoryGap="30%" // Adjust gap between bars
+        barCategoryGap="30%"
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="day" />
         <YAxis />
         <Tooltip />
         <Legend />
@@ -74,7 +56,7 @@ const SalesTrackingChart = () => {
           barSize={50}
         />
         <Bar
-          dataKey="Revenue"
+          dataKey="total"
           stackId="a"
           fill="#D7E8FD"
           radius={[5, 5, 0, 0]}

@@ -6,7 +6,7 @@ const dashboardSlice = api.injectEndpoints({
       query: () => {
         return {
           method: "GET",
-          url: "/dashboard/general-stat",
+          url: "/admin/home-summary-count",
         };
       },
     }),
@@ -36,6 +36,24 @@ const dashboardSlice = api.injectEndpoints({
         };
       },
     }),
+
+    salesAndRevenueChart: builder.query({
+      query: () => {
+        return {
+          method: "GET",
+          url: "/admin/home-sales",
+        };
+      },
+    }),
+
+    subscriptionMetrics: builder.query({
+      query: () => {
+        return {
+          method: "GET",
+          url: "/admin/home-metrics",
+        };
+      },
+    }),
   }),
 });
 
@@ -44,4 +62,6 @@ export const {
   useOverAllStateQuery,
   useBestServicesQuery,
   useVendorsConversionDataQuery,
+  useSalesAndRevenueChartQuery,
+  useSubscriptionMetricsQuery,
 } = dashboardSlice;

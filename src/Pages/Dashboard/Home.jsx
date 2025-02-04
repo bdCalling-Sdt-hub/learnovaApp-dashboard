@@ -5,8 +5,12 @@ import logo from "../../assets/logo.png";
 import UserEngagement from "../../components/ui/Home/UserEngagement";
 import GeneralStateSection from "../../components/ui/Home/GeneralStateSection";
 import Professionals from "../../components/ui/Home/Professionals";
+import { useSubscriptionMetricsQuery } from "../../redux/apiSlices/dashboardSlice";
 
 const Home = () => {
+  const { data: subscriptionMetrics, isLoading: subscriptionMetricsIsLoading } =
+    useSubscriptionMetricsQuery();
+
   const orderSummary = {
     doneByProfessionals: 65,
     doneByFreelancers: 35,
@@ -91,13 +95,13 @@ const Home = () => {
         </div>
       </div>
       <div className="w-full md:flex gap-6">
-        <div className="md:w-5/12 my-6 ">
+        <div className="w-full my-6 ">
           {" "}
           <RunningOrdersTable />
         </div>
-        <div className="md:w-7/12 my-6 ">
+        {/* <div className="md:w-7/12 my-6 ">
           <UserEngagement />
-        </div>
+        </div> */}
       </div>
     </div>
   );
