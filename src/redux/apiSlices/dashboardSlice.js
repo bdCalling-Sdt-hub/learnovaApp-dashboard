@@ -50,6 +50,15 @@ const dashboardSlice = api.injectEndpoints({
       query: () => {
         return {
           method: "GET",
+          url: "/admin/home-percentage",
+        };
+      },
+    }),
+
+    operationalMetrics: builder.query({
+      query: () => {
+        return {
+          method: "GET",
           url: "/admin/home-metrics",
         };
       },
@@ -64,4 +73,5 @@ export const {
   useVendorsConversionDataQuery,
   useSalesAndRevenueChartQuery,
   useSubscriptionMetricsQuery,
+  useOperationalMetricsQuery,
 } = dashboardSlice;

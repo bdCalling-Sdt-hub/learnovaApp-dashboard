@@ -30,6 +30,8 @@ const SalesTrackingChart = () => {
     day: dayMapping[item.day - 1],
   }));
 
+  console.log(chartData);
+
   return (
     <ResponsiveContainer width="90%" height={230}>
       <BarChart
