@@ -4,34 +4,34 @@ import { Link } from "react-router-dom";
 const SubscriptionManagement = () => {
   // Dummy data with avatar images
   const data = [
-    {
-      key: "1",
-      name: "John Doe",
-      status: "Active",
-      plan: "Monthly",
-      avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-    },
-    {
-      key: "2",
-      name: "Jane Smith",
-      status: "Inactive",
-      plan: "Yearly",
-      avatar: "https://randomuser.me/api/portraits/women/2.jpg",
-    },
-    {
-      key: "3",
-      name: "Alice Johnson",
-      status: "Active",
-      plan: "Monthly",
-      avatar: "https://randomuser.me/api/portraits/women/3.jpg",
-    },
-    {
-      key: "4",
-      name: "Bob Brown",
-      status: "Active",
-      plan: "Yearly",
-      avatar: "https://randomuser.me/api/portraits/men/4.jpg",
-    },
+    // {
+    //   key: "1",
+    //   name: "John Doe",
+    //   status: "Active",
+    //   plan: "Monthly",
+    //   avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+    // },
+    // {
+    //   key: "2",
+    //   name: "Jane Smith",
+    //   status: "Inactive",
+    //   plan: "Yearly",
+    //   avatar: "https://randomuser.me/api/portraits/women/2.jpg",
+    // },
+    // {
+    //   key: "3",
+    //   name: "Alice Johnson",
+    //   status: "Active",
+    //   plan: "Monthly",
+    //   avatar: "https://randomuser.me/api/portraits/women/3.jpg",
+    // },
+    // {
+    //   key: "4",
+    //   name: "Bob Brown",
+    //   status: "Active",
+    //   plan: "Yearly",
+    //   avatar: "https://randomuser.me/api/portraits/men/4.jpg",
+    // },
   ];
 
   // Define columns for the table
